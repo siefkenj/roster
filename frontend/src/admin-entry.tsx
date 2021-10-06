@@ -5,6 +5,7 @@ import { useAppSelector } from "./app/hooks";
 import { ActiveExamWrapper } from "./views/admin/active-exam-wrapper";
 import { AdminLanding } from "./views/admin/admin-landing";
 
+import "bootstrap/dist/css/bootstrap.min.css";
 import "./admin-entry.css";
 
 function App() {
