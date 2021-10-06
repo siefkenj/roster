@@ -1,0 +1,44 @@
+# frozen_string_literal: true
+
+source 'https://rubygems.org'
+git_source(:github) { |repo| "https://github.com/#{repo}.git" }
+
+ruby '2.6.6'
+
+gem 'rails', '~> 6.1.1'
+gem 'pg', '>= 0.18', '< 2.0'
+gem 'puma', '~> 4.3'
+gem 'bootsnap', '>= 1.4.2', require: false
+
+group :development, :test do
+    gem 'factory_bot_rails'
+    gem 'faker'
+    gem 'pry-rails'
+    gem 'pry-byebug'
+    gem 'rspec-rails'
+    gem 'rubocop', require: false
+    gem 'rubocop-performance'
+    gem 'shoulda-matchers'
+end
+
+group :development do
+    gem 'annotate'
+    gem 'better_errors'
+    gem 'binding_of_caller'
+    gem 'listen', '>= 3.0.5', '< 3.2'
+    gem 'rails-erd'
+    gem 'spring'
+    gem 'spring-watcher-listen', '~> 2.0.0'
+end
+
+group :test do
+    gem 'database_cleaner'
+    gem 'simplecov', require: false
+end
+
+gem 'role_model'
+gem 'combine_pdf'
+gem 'liquid'
+gem 'wicked_pdf'
+gem 'html_to_plain_text'
+gem 'active_model_serializers', '~> 0.10.0'

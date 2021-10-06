@@ -1,0 +1,33 @@
+version: "3"
+
+services:
+    db:
+        image: "postgres:10.5-alpine"
+        environment:
+            POSTGRES_DB: ${POSTGRES_DB}
+            POSTGRES_USER: ${POSTGRES_USER}
+            POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    backend:
+        depends_on:
+            - "db"
+        command: sh -c "rm -f /app/tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
+        build: ./backend
+        ports:
+            - "3000:3000"
+        environment:
+            RAILS_ENV: ${RAILS_ENV}
+            POSTGRES_DB: ${POSTGRES_DB}
+            POSTGRES_USER: ${POSTGRES_USER}
+            POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+            SECRET_KEY_BASE: ${SECRET_KEY_BASE}
+            RAILS_SERVE_STATIC_FILES: ${RAILS_SERVE_STATIC_FILES}
+            RAILS_LOG_TO_STDOUT: ${RAILS_LOG_TO_STDOUT}
+            DEPARTMENT: ${DEPARTMENT}
+            BASE_URL: ${BASE_URL}
+            EMAIL_SERVER: ${EMAIL_SERVER}
+            EMAIL_PORT: ${EMAIL_PORT}
+            TA_COORDINATOR_EMAIL: ${TA_COORDINATOR_EMAIL}
+            TA_COORDINATOR_NAME: ${TA_COORDINATOR_NAME}
+            CONTRACT_TEMPLATE_DIR: ${CONTRACT_TEMPLATE_DIR}
+            ALLOW_BASIC_AUTH: ${ALLOW_BASIC_AUTH}
+            ROSTER_ADMINS: ${ROSTER_ADMINS}

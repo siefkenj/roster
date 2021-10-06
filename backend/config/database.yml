@@ -1,0 +1,22 @@
+default: &default
+    adapter: postgresql
+    host: db
+    encoding: unicode
+    pool: 5
+    username: <%= ENV.fetch("POSTGRES_USER") %>
+    password: <%= ENV.fetch("POSTGRES_PASSWORD") %>
+
+development:
+    <<: *default
+    database: <%= ENV.fetch("POSTGRES_DB") %>
+
+# Warning: The database defined as "test" will be erased and
+# re-generated from your development database when you run "rake".
+# Do not set this db to the same as development or production.
+test:
+    <<: *default
+    database: roster_test
+
+production:
+    <<: *default
+    database: <%= ENV.fetch("POSTGRES_DB") %>

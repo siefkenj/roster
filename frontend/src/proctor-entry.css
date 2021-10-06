@@ -1,0 +1,77 @@
+html,
+body,
+#root {
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+}
+
+:root {
+    --actions-background: #a8d6ff16;
+    --actions-background-active: #a8d6ffff;
+    --actions-background-hover: #a8d6ff56;
+    --actions-border: #cee1f7;
+    --actions-color: #007bff;
+
+    /*
+    --actions-background: #479dfc;
+    --actions-color: #fff;
+    */
+}
+
+#app-body {
+    height: 100%;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.proctor-view {
+    flex-grow: 1;
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+}
+.proctor-matching-view,
+.proctor-token-setup-view {
+    flex-grow: 1;
+    flex-grow: 1;
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+    padding: 6px;
+    gap: 6px;
+}
+.proctor-matching-view > *,
+.proctor-token-setup-view > * {
+    margin: 0px;
+}
+
+/* react-bootstrap-typeahead's highlight color */
+mark.rbt-highlight-text {
+    /*background-color: #d1e8ff;*/
+    position: relative;
+    display: inline-block;
+}
+mark.rbt-highlight-text:after {
+    content: "\00a0";
+    position: absolute;
+    left: -2px;
+    top: 0px;
+    height: 100%;
+    width: calc(100% + 4px);
+    background-color: var(--warning);
+    border-radius: 5px;
+    z-index: -5;
+}
+
+.booklet-match-prepend-area > span {
+    min-width: 6em;
+    display: inline;
+    text-align: center;
+}
+.typeahead-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}

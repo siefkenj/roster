@@ -1,0 +1,71 @@
+html,
+body,
+#root {
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+}
+
+#dev-frame {
+    width: 100%;
+    height: 100%;
+    background-color: blue;
+    display: flex;
+    flex-direction: column;
+}
+#dev-frame-body {
+    flex-grow: 1;
+    position: relative;
+    padding: 6px;
+    padding-bottom: 7px;
+    padding-top: 0px;
+    overflow: hidden;
+}
+#dev-frame-body-inner {
+    background-color: white;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+}
+.logged-in-as-container {
+    display: flex;
+    align-items: baseline;
+    margin-right: 1em;
+    margin-left: 4px;
+}
+.logged-in-as-container label {
+    margin-right: 0.5em;
+}
+
+.mock-button {
+	margin-left: 1em;
+	margin-right: 1em;
+}
+
+.api-route-container .verb {
+    font-weight: bold;
+    color: white;
+    display: inline-block;
+    text-align: center;
+    padding: 3px;
+    margin: 3px;
+    border-radius: 6px;
+    margin-right: 1em;
+    width: 4em;
+}
+.api-route-container .verb.GET {
+    background-color: var(--green);
+}
+.api-route-container .verb.POST {
+    background-color: var(--orange);
+}
+.api-route-container .path {
+}
+.api-route-container .path .var{
+    font-weight: bold;
+    color: var(--blue);
+}
+.api-route-container .path .var:before{
+    content: ":"
+}
