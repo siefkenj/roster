@@ -2,6 +2,7 @@ import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit";
 import { reducer as notifications } from "react-notification-system-redux";
 import { userSlice } from "../features/active-user/user-slice";
 import { bookletMatchesSlice } from "../features/booklet-matches/booklet-matches-slice";
+import { debugSlice } from "../features/dev-mode/dev-mode-slice";
 import { examSlice } from "../features/exam/exam-slice";
 import { examTokensSlice } from "../features/exam_tokens/exam-tokens-slice";
 import { modelDataSlice } from "../features/model-data/model-data";
@@ -19,6 +20,7 @@ export const store = configureStore({
         proctor: proctorSlice.reducer,
         booklet_matches: bookletMatchesSlice.reducer,
         model_data: modelDataSlice.reducer,
+        debug: debugSlice.reducer,
         notifications: notifications as any,
     },
 });
