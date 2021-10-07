@@ -3,7 +3,8 @@
 class Api::V1::Admin::ExamsController < ApplicationController
     # GET
     def index
-        render_success Exam.all.order(end_time: :DESC)
+        find_active_user
+        render_success @active_user.exams.order(end_time: :DESC)
     end
 
     # GET :id

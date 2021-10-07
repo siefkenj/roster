@@ -4,12 +4,22 @@ import { NavLink, Switch, Route } from "react-router-dom";
 
 import "./main.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Navbar, Nav } from "react-bootstrap";
+import { Navbar, Nav, Button } from "react-bootstrap";
 
 import "swagger-ui-react/swagger-ui.css";
 import { ActiveUserButton } from "./active-user-switch";
 import { ErrorBoundary } from "react-error-boundary";
 import { ApiDocs } from "./api-docs";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import {
+    debugSelectors,
+    debugSlice,
+    debugThunks,
+    hideDevModeSelector,
+} from "../../features/dev-mode/dev-mode-slice";
+import { FaTimes } from "react-icons/fa";
+import { activeUserSelector } from "../../features/active-user/user-slice";
+import { RawUser } from "../../api/raw-types";
 
 /**
  * Wrap `"react-router-dom"`'s `NavLink` in Bootstrap
@@ -34,7 +44,35 @@ BootstrapNavLink.propTypes = {
 };
 
 function ConnectedActiveUserButton() {
-    return <ActiveUserButton />;
+    const dispatch = useAppDispatch();
+    const activeUser = useAppSelector(activeUserSelector);
+    const users = useAppSelector(debugSelectors.users);
+
+    const fetchUsers = React.useCallback(
+        async function fetchUsers() {
+            return await dispatch(debugThunks.fetchUsers());
+        },
+        [dispatch]
+    );
+    const setActiveUser = React.useCallback(
+        async function setActiveUser(user?: RawUser | null) {
+            if (!user) {
+                console.warn("Trying to set `activeUser` to null");
+                return;
+            }
+            return await dispatch(debugThunks.setActiveUser(user));
+        },
+        [dispatch]
+    );
+
+    return (
+        <ActiveUserButton
+            activeUser={activeUser}
+            users={users}
+            fetchUsers={fetchUsers}
+            setActiveUser={setActiveUser}
+        />
+    );
 }
 
 /*
@@ -64,10 +102,28 @@ function ErrorFallback({
 }
 
 function DevFrame({ children }: React.PropsWithChildren<{}>) {
+    const hideDevFrame = useAppSelector(hideDevModeSelector);
+    const dispatch = useAppDispatch();
+
+    if (hideDevFrame) {
+        return <React.Fragment>{children}</React.Fragment>;
+    }
+
     return (
         <div id="dev-frame" className="bg-info">
             <div id="dev-frame-header">
                 <Navbar expand variant="dark">
+                    <Button
+                        size="sm"
+                        className="mr-2"
+                        variant="outline-light"
+                        title="Hide the dev frame (this can only be undone by refreshing the browser)"
+                        onClick={() => {
+                            dispatch(debugSlice.actions.setHideDevFrame(true));
+                        }}
+                    >
+                        <FaTimes />
+                    </Button>
                     <Navbar.Brand
                         href="#/admin"
                         title="View Roster in development mode in a framed window."
