@@ -1,4 +1,4 @@
-FROM node:14.18-alpine
+FROM node:16.10-alpine
 
 ENV NODE_PATH=/node_modules
 ENV PATH=$PATH:/node_modules/.bin

@@ -9,6 +9,15 @@ const FETCH_INIT: RequestInit = {
 };
 
 /**
+ * When running in node, there is no notion of a "base url". That is,
+ * trying to fetch "/api/v1" will not resolve to "<window.location>/api/v1".
+ * Therefore, this base url is provided and inserted in front of all api urls.
+ */
+export const globalFetchConfig = {
+    baseUrl: "",
+};
+
+/**
  * Error thrown whenever an api call returns with `status==="error"`
  *
  * @class ApiError
@@ -96,10 +105,13 @@ async function apiGET<Path extends string, Ret = ApiGetReturnType<Path>>(
 ): Promise<Ret> {
     // remove a leading "/" if there is one in `path`
     path = _ensurePath(path) as Path;
-    const resp = await fetch((omitPrefix ? "" : API_URL) + path, {
-        ...FETCH_INIT,
-        method: "GET",
-    });
+    const resp = await fetch(
+        globalFetchConfig.baseUrl + (omitPrefix ? "" : API_URL) + path,
+        {
+            ...FETCH_INIT,
+            method: "GET",
+        }
+    );
     return await _processFetchResponse(resp, path);
 }
 
@@ -115,11 +127,14 @@ async function apiGET<Path extends string, Ret = ApiGetReturnType<Path>>(
 async function apiPOST(path: string, body: any = {}, omitPrefix = false) {
     // remove a leading "/" if there is one in `path`
     path = _ensurePath(path);
-    const resp = await fetch((omitPrefix ? "" : API_URL) + path, {
-        ...FETCH_INIT,
-        method: "POST",
-        body: JSON.stringify(body),
-    });
+    const resp = await fetch(
+        globalFetchConfig.baseUrl + (omitPrefix ? "" : API_URL) + path,
+        {
+            ...FETCH_INIT,
+            method: "POST",
+            body: JSON.stringify(body),
+        }
+    );
     return await _processFetchResponse(resp, path);
 }
 
