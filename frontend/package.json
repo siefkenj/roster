@@ -5,7 +5,7 @@
     "proxy": "http://backend:3000",
     "private": true,
     "dependencies": {
-        "@reduxjs/toolkit": "^1.6.1",
+        "@reduxjs/toolkit": "^1.6.2",
         "@types/file-saver": "^2.0.3",
         "@types/fuzzyset": "^1.0.3",
         "@types/jest": "^27.0.2",
