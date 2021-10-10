@@ -150,7 +150,7 @@ class Api::V1::DebugController < ApplicationController
     end
 
     def user_params
-        params.permit(:id, :utorid, roles: [])
+        params.permit(:id, :utorid, :name)
     end
 
     def update_user

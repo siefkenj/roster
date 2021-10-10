@@ -220,3 +220,7 @@ export async function apiPOST(url: string, body = {}, omitPrefix = false) {
     // just return the payload
     return resp.data as ApiResponse;
 }
+
+export function randomStr(): string {
+    return `${Math.random()}`.slice(3, 7);
+}
