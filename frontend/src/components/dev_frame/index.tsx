@@ -6,7 +6,6 @@ import "./main.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Navbar, Nav, Button } from "react-bootstrap";
 
-import "swagger-ui-react/swagger-ui.css";
 import { ActiveUserButton } from "./active-user-switch";
 import { ErrorBoundary } from "react-error-boundary";
 import { ApiDocs } from "./api-docs";
