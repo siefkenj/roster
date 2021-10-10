@@ -41,3 +41,9 @@ export interface RawExamToken {
     user_id: number | null;
     status: "expired" | "active" | "unused";
 }
+
+export interface ApiResponse {
+    status: "success" | "error";
+    message: string;
+    payload: unknown;
+}

@@ -58,13 +58,16 @@ function _ensurePath(path: string) {
 async function _processFetchResponse(resp: Response, path: string) {
     if (resp.status === 200) {
         const json = await resp.json();
-        if (json.status !== "success") {
+        if (!json || json.status !== "success") {
             // If we got random JSON instead of {status: ..., message: ..., payload: ...}
             // There will be no `json.message`. Provide a default message that will get
             // overridden in this case
-            throw new ApiError({
+            const { message } = json || {
                 message: "Server response did not have `status === 'success`",
-                ...json,
+            };
+            throw new ApiError({
+                ...resp,
+                ...{ message },
             });
         }
         return json.payload;
