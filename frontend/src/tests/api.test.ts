@@ -8,7 +8,7 @@ import { fetchActiveUser } from "../features/active-user/actions";
 import { globalFetchConfig } from "../api/utils";
 import { debugApi } from "../features/dev-mode/api-actions";
 import { RawExam, RawRoom, RawUser } from "../api/raw-types";
-import { fetchRooms, upsertExam, upsertRoom } from "../api/admin-actions";
+import { deleteRoom, fetchRooms, uploadRoomRoster, upsertExam, upsertRoom } from "../api/admin-actions";
 
 if (!globalThis.fetch) {
     (globalThis as any).fetch = fetch;
@@ -83,5 +83,32 @@ describe("API Tests", () => {
             expect(resp2.length).toEqual(1);
             expect(resp2).toContainObject(room1);
         });
+        it("Update room", async () => {
+            room1.name = "EX 101"
+            const resp = await upsertRoom(admin1Exam.url_token, room1);
+            expect(resp).toMatchObject(room1);
+            Object.assign(room1, resp);
+
+            const resp2 = await fetchRooms(admin1Exam.url_token);
+            expect(resp2.length).toEqual(1);
+            expect(resp2).toContainObject(room1);
+        });
+        it("Delete room", async () => {
+            const resp = await deleteRoom(admin1Exam.url_token, room1.id);
+            expect(resp).toMatchObject(room1);
+
+            const resp2 = await fetchRooms(admin1Exam.url_token);
+            expect(resp2.length).toEqual(0);
+        });
+        //it("Upload rooms roster", async () => {
+        //    const resp = await uploadRoomRoster(admin1Exam.url_token, room1.id);
+        //    expect(resp).toMatchObject(room1);
+
+        //    const resp2 = await fetchRooms(admin1Exam.url_token);
+        //    expect(resp2.length).toEqual(0);
+        //});
+        
+
+        it.todo("Cannot update room that belongs to the wrong exam")
     });
 });
