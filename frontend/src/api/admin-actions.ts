@@ -51,7 +51,7 @@ export async function upsertStudent(
 
 export async function uploadStudentRoster(
     exam_url_token: string,
-    students: Student[]
+    students: Partial<Student>[]
 ) {
     return (await apiPOST(`/admin/exams/${exam_url_token}/students/roster`, {
         roster: students,
@@ -85,7 +85,10 @@ export async function upsertRoom(exam_url_token: string, room: Partial<Room>) {
     )) as RawRoom;
 }
 
-export async function uploadRoomRoster(exam_url_token: string, rooms: Room[]) {
+export async function uploadRoomRoster(
+    exam_url_token: string,
+    rooms: Omit<RawRoom, "id">[]
+) {
     return (await apiPOST(`/admin/exams/${exam_url_token}/rooms/roster`, {
         roster: rooms,
     })) as RawRoom[];
@@ -112,11 +115,11 @@ export async function fetchExamToken(exam_url_token: string, room_id: number) {
 
 export async function upsertExamToken(
     exam_url_token: string,
-    room: Partial<ExamToken>
+    exam_token: Partial<ExamToken>
 ) {
     return (await apiPOST(
         `/admin/exams/${exam_url_token}/exam_tokens`,
-        room
+        exam_token
     )) as RawExamToken;
 }
 
