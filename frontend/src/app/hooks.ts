@@ -16,9 +16,10 @@ export const createAsyncThunkWithErrorNotifications: typeof createAsyncThunk = (
     payloadCreator,
     options
 ) => {
-    const wrappedPayloadCreator: typeof payloadCreator = async (...args) => {
+    //const wrappedPayloadCreator: typeof payloadCreator = async (...args) => {
+    const wrappedPayloadCreator: any = async (...args: any[]) => {
         try {
-            const ret = await payloadCreator(...args);
+            const ret = await (payloadCreator as any)(...args);
             return ret;
         } catch (e) {
             const { dispatch } = args[1];

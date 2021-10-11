@@ -347,20 +347,6 @@ Some useful tips or reminders:
 -   Using `describe.skip` can skip specific test sections
 -   Never manally edit snapshot files located under `frontend\src\tests\__snapshots__`
 
-## API Documentation
-
-We currently have a Swagger UI locally hosted under the `dist` folder. Within
-it is an "index.html" that you can drag to a local browser that will open up
-our documentation for our API routes. To make changes, go to the public `gist`
-that is pointed to under the `URL` property, and update the existing YAML
-there.
-
-OpenAPI 3.0.2 specifications are located
-[here](https://github.com/OAI/OpenApi-Specification/blob/master/versions/3.0.2.md).
-
-This online [editor](editor.swagger.io) helps with a live loading of the documentation to write
-documentation. Just copy paste the current YAML into the editor to start editing.
-
 ## Playbook
 
 ### Gemfile.lock synchronization
