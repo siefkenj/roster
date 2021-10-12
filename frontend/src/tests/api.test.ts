@@ -8,19 +8,7 @@ import { fetchActiveUser } from "../features/active-user/actions";
 import { globalFetchConfig } from "../api/utils";
 import { debugApi } from "../features/dev-mode/api-actions";
 import { RawExam, RawRoom, RawStudent, RawUser } from "../api/raw-types";
-import {
-    deleteRoom,
-    deleteStudent,
-    fetchExamTokens,
-    fetchRooms,
-    fetchStudents,
-    uploadRoomRoster,
-    uploadStudentRoster,
-    upsertExam,
-    upsertExamToken,
-    upsertRoom,
-    upsertStudent,
-} from "../api/admin-actions";
+import { api } from "../api/admin-actions";
 
 if (!globalThis.fetch) {
     (globalThis as any).fetch = fetch;
@@ -84,7 +72,7 @@ describe("API Tests", () => {
             expect(resp).toMatchObject(adminUser1);
         });
         it("Create an exam", async () => {
-            const resp = await upsertExam(admin1Exam);
+            const resp = await api.exams.upsert(admin1Exam);
             const { end_time, name } = resp;
             expect(name).toEqual(admin1Exam.name);
             // Rails formats dates differently than javascript, so we should only compare the day
@@ -97,29 +85,29 @@ describe("API Tests", () => {
 
         // Rooms
         it("Add room to exam", async () => {
-            const resp = await upsertRoom(admin1Exam.url_token, room1);
+            const resp = await api.rooms.upsert(admin1Exam.url_token, room1);
             expect(resp).toMatchObject(room1);
             Object.assign(room1, resp);
 
-            const resp2 = await fetchRooms(admin1Exam.url_token);
+            const resp2 = await api.rooms.fetch(admin1Exam.url_token);
             expect(resp2.length).toEqual(1);
             expect(resp2).toContainObject(room1);
         });
         it("Update room", async () => {
             room1.name = "EX 101";
-            const resp = await upsertRoom(admin1Exam.url_token, room1);
+            const resp = await api.rooms.upsert(admin1Exam.url_token, room1);
             expect(resp).toMatchObject(room1);
             Object.assign(room1, resp);
 
-            const resp2 = await fetchRooms(admin1Exam.url_token);
+            const resp2 = await api.rooms.fetch(admin1Exam.url_token);
             expect(resp2.length).toEqual(1);
             expect(resp2).toContainObject(room1);
         });
         it("Delete room", async () => {
-            const resp = await deleteRoom(admin1Exam.url_token, room1.id);
+            const resp = await api.rooms.delete(admin1Exam.url_token, room1.id);
             expect(resp).toMatchObject(room1);
 
-            const resp2 = await fetchRooms(admin1Exam.url_token);
+            const resp2 = await api.rooms.fetch(admin1Exam.url_token);
             expect(resp2.length).toEqual(0);
         });
         it("Upload rooms roster", async () => {
@@ -128,10 +116,13 @@ describe("API Tests", () => {
                 { name: "EX 200" },
                 { name: "EX 300" },
             ];
-            const resp = await uploadRoomRoster(admin1Exam.url_token, rooms);
+            const resp = await api.rooms.uploadRoster(
+                admin1Exam.url_token,
+                rooms
+            );
             expect(resp).toMatchObject(rooms);
 
-            const resp2 = await fetchRooms(admin1Exam.url_token);
+            const resp2 = await api.rooms.fetch(admin1Exam.url_token);
             expect(resp2.length).toEqual(3);
             expect(resp2).toMatchObject(rooms);
             // Keep information about the first room
@@ -140,20 +131,20 @@ describe("API Tests", () => {
 
         // Roster
         it("Add student", async () => {
-            const resp = await upsertStudent(
+            const resp = await api.students.upsert(
                 admin1Exam.url_token,
                 admin1Student
             );
             expect(resp).toMatchObject(admin1Student);
             Object.assign(admin1Student, resp);
 
-            const resp2 = await fetchStudents(admin1Exam.url_token);
+            const resp2 = await api.students.fetch(admin1Exam.url_token);
             expect(resp2.length).toEqual(1);
             expect(resp2[0]).toMatchObject(admin1Student);
         });
         it("Update student", async () => {
             admin1Student.last_name = "Fillmore";
-            const resp = await upsertStudent(
+            const resp = await api.students.upsert(
                 admin1Exam.url_token,
                 admin1Student
             );
@@ -161,12 +152,12 @@ describe("API Tests", () => {
             Object.assign(admin1Student, resp);
         });
         it("Delete student", async () => {
-            const resp = await deleteStudent(
+            const resp = await api.students.delete(
                 admin1Exam.url_token,
                 admin1Student.id
             );
             expect(resp).toMatchObject(admin1Student);
-            const resp2 = await fetchStudents(admin1Exam.url_token);
+            const resp2 = await api.students.fetch(admin1Exam.url_token);
             expect(resp2.length).toEqual(0);
         });
         it("Upload student roster", async () => {
@@ -174,13 +165,13 @@ describe("API Tests", () => {
                 { first_name: "Wanda", utorid: "wanda23" },
                 { last_name: "Borne", utorid: "borne7" },
             ];
-            const resp = await uploadStudentRoster(
+            const resp = await api.students.uploadRoster(
                 admin1Exam.url_token,
                 students
             );
             expect(resp).toMatchObject(students);
             students = resp;
-            const resp2 = await fetchStudents(admin1Exam.url_token);
+            const resp2 = await api.students.fetch(admin1Exam.url_token);
             expect(resp2.length).toEqual(2);
             // Save a student for later
             Object.assign(admin1Student, students[0]);
@@ -188,12 +179,12 @@ describe("API Tests", () => {
 
         // ExamTokens
         it("Create exam tokens for an exam", async () => {
-            const resp = await upsertExamToken(admin1Exam.url_token, {});
+            const resp = await api.examTokens.upsert(admin1Exam.url_token, {});
             expect(resp).toMatchObject({ status: "unused" });
             expect(resp.token).not.toBeNull();
             const examToken = resp;
 
-            const resp2 = await fetchExamTokens(admin1Exam.url_token);
+            const resp2 = await api.examTokens.fetch(admin1Exam.url_token);
             expect(resp2).toContainObject(examToken);
         });
 

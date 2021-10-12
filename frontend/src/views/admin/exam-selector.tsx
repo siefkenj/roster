@@ -2,16 +2,13 @@ import React from "react";
 import { Dropdown } from "react-bootstrap";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { FilterableMenu } from "../../components/filterable-menu";
-import {
-    activeExamSelector,
-    examSlice,
-    examsSelector,
-    fetchExamsThunk,
-} from "../../features/exam/exam-slice";
+import { adminSelectors, adminSlice } from "../../features/admin/exams";
+import { adminThunks } from "../../features/admin/thunks";
+import { modelDataSelectors } from "../../features/model-data/model-data";
 
 export function ExamSelector() {
-    const exams = useAppSelector(examsSelector);
-    const activeExam = useAppSelector(activeExamSelector);
+    const exams = useAppSelector(modelDataSelectors.exams);
+    const activeExam = useAppSelector(adminSelectors.activeExam);
     const dispatch = useAppDispatch();
     const [dropdownVisible, setDropdownVisible] = React.useState(false);
 
@@ -35,7 +32,7 @@ export function ExamSelector() {
 
     React.useEffect(() => {
         (async () => {
-            await dispatch(fetchExamsThunk());
+            await dispatch(adminThunks.exams.fetch());
         })();
     }, [dispatch]);
 
@@ -47,7 +44,7 @@ export function ExamSelector() {
                     if (i == null) {
                         return;
                     }
-                    dispatch(examSlice.actions.setActiveExam(sortedExams[+i]));
+                    dispatch(adminSlice.actions.setActiveExam(sortedExams[+i]));
                 }}
                 onToggle={(desiredVisibility) =>
                     setDropdownVisible(desiredVisibility)

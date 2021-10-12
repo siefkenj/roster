@@ -21,7 +21,7 @@ import {
     userSlice,
 } from "../../../features/active-user/user-slice";
 import {
-    proctorSelector,
+    proctorSelectors,
     proctorSlice,
     proctorThunks,
 } from "../../../features/proctor/proctor-slice";
@@ -36,11 +36,11 @@ import { RoomSelector } from "./room-selector";
 export function TokenSetup() {
     const editableActiveUser = useAppSelector(editableActiveUserSelector);
     const editableShortToken = useAppSelector(
-        proctorSelector.editableShortToken
+        proctorSelectors.editableShortToken
     );
-    const examTokenStatus = useAppSelector(proctorSelector.examTokenStatus);
-    const examToken = useAppSelector(proctorSelector.examToken);
-    const activeRoom = useAppSelector(proctorSelector.activeRoom);
+    const examTokenStatus = useAppSelector(proctorSelectors.examTokenStatus);
+    const examToken = useAppSelector(proctorSelectors.examToken);
+    const activeRoom = useAppSelector(proctorSelectors.activeRoom);
     const dispatch = useAppDispatch();
     const history = useHistory();
     const [checkShortExamToken, setCheckShortExamToken] = React.useState(false);

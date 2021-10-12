@@ -5,14 +5,12 @@ import { normalizeImport } from "../../libs/import-export/normalize-import";
 import { roomSchema } from "../../libs/schema";
 import { RawRoom } from "../../api/raw-types";
 import { ImportButton } from "../import-button";
-import {
-    roomsSelector,
-    uploadRoomRosterThunk,
-} from "../../features/rooms/rooms-slice";
+import { modelDataSelectors } from "../../features/model-data/model-data";
+import { adminThunks } from "../../features/admin/thunks";
 
 export function ImportRoomsButton() {
     const dispatch = useAppDispatch();
-    const rooms = useAppSelector(roomsSelector);
+    const rooms = useAppSelector(modelDataSelectors.rooms);
     const [fileContent, setFileContent] = React.useState<{
         fileType: "json" | "spreadsheet";
         data: any;
@@ -49,7 +47,7 @@ export function ImportRoomsButton() {
             throw new Error("Unable to find room data");
         }
 
-        await dispatch(uploadRoomRosterThunk(processedData));
+        await dispatch(adminThunks.rooms.uploadRoster(processedData));
 
         setFileContent(null);
     }

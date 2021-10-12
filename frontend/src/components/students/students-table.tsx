@@ -2,17 +2,14 @@ import React from "react";
 import { FaTimes, FaTrash } from "react-icons/fa";
 import { Student } from "../../api/types";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import {
-    deleteStudentThunk,
-    studentsSelector,
-    upsertStudentThunk,
-} from "../../features/students/student-slice";
+import { adminThunks } from "../../features/admin/thunks";
+import { modelDataSelectors } from "../../features/model-data/model-data";
 import { EditableCell } from "../editable-cell";
 import { AdvancedFilterTable } from "../filter-table/advanced-filter-table";
 import { generateHeaderCell } from "../table-utils";
 
 export function StudentsTable({ inDeleteMode = false }) {
-    const students = useAppSelector(studentsSelector);
+    const students = useAppSelector(modelDataSelectors.students);
     const dispatch = useAppDispatch();
 
     const columns = React.useMemo(() => {
@@ -25,7 +22,9 @@ export function StudentsTable({ inDeleteMode = false }) {
                         className="delete-row-button"
                         title={`Delete ${student.last_name}, ${student.first_name}`}
                         onClick={async () => {
-                            await dispatch(deleteStudentThunk(student));
+                            await dispatch(
+                                adminThunks.students.delete(student)
+                            );
                         }}
                     />
                 </div>
@@ -36,7 +35,7 @@ export function StudentsTable({ inDeleteMode = false }) {
                 <EditableCell
                     field={field}
                     upsert={async (student: Partial<Student>) => {
-                        await dispatch(upsertStudentThunk(student));
+                        await dispatch(adminThunks.students.upsert(student));
                     }}
                     {...props}
                 />

@@ -3,11 +3,9 @@ import { Modal, Button, Alert, Spinner, Form } from "react-bootstrap";
 import { strip } from "../../libs/utils";
 import { Student } from "../../api/types";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import {
-    studentsSelector,
-    upsertStudentThunk,
-} from "../../features/students/student-slice";
 import { DialogRow } from "../forms/common-controls";
+import { modelDataSelectors } from "../../features/model-data/model-data";
+import { adminThunks } from "../../features/admin/thunks";
 
 const BLANK_STUDENT: Omit<Student, "id"> = {
     first_name: "",
@@ -125,11 +123,11 @@ export function AddStudentDialog(props: {
         BLANK_STUDENT
     );
     const [inProgress, setInProgress] = React.useState(false);
-    const students = useAppSelector(studentsSelector);
+    const students = useAppSelector(modelDataSelectors.students);
     const dispatch = useAppDispatch();
 
-    function _upsertStudent(applicant: Partial<Student>) {
-        return dispatch(upsertStudentThunk(applicant));
+    function _upsertStudent(student: Partial<Student>) {
+        return dispatch(adminThunks.students.upsert(student));
     }
 
     React.useEffect(() => {

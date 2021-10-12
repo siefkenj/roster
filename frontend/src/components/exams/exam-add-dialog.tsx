@@ -4,11 +4,9 @@ import { strip } from "../../libs/utils";
 import { Exam } from "../../api/types";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { DialogRow } from "../forms/common-controls";
-import {
-    examSlice,
-    examsSelector,
-    upsertExamThunk,
-} from "../../features/exam/exam-slice";
+import { adminSlice } from "../../features/admin/exams";
+import { modelDataSelectors } from "../../features/model-data/model-data";
+import { adminThunks } from "../../features/admin/thunks";
 
 const BLANK_EXAM: Omit<Exam, "id" | "url_token"> = {
     name: "",
@@ -99,11 +97,11 @@ export function AddExamDialog(props: {
     const { show, onHide = () => {} } = props;
     const [newExam, setNewExam] = React.useState<Partial<Exam>>(BLANK_EXAM);
     const [inProgress, setInProgress] = React.useState(false);
-    const exams = useAppSelector(examsSelector);
+    const exams = useAppSelector(modelDataSelectors.exams);
     const dispatch = useAppDispatch();
 
     function _upsertExam(exam: Partial<Exam>) {
-        return dispatch(upsertExamThunk(exam));
+        return dispatch(adminThunks.exams.upsert(exam));
     }
 
     React.useEffect(() => {
@@ -117,7 +115,7 @@ export function AddExamDialog(props: {
         setInProgress(true);
         const resp = await _upsertExam(newExam);
         dispatch(
-            examSlice.actions.setActiveExam((resp as any).payload.payload)
+            adminSlice.actions.setActiveExam((resp as any).payload.payload)
         );
         console.log("uuu", resp);
         setInProgress(false);

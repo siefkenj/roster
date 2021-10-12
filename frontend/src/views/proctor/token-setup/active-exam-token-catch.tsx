@@ -5,7 +5,7 @@ import { useHistory } from "react-router";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 import { VSpace } from "../../../components/layout";
 import {
-    proctorSelector,
+    proctorSelectors,
     proctorSlice,
 } from "../../../features/proctor/proctor-slice";
 
@@ -23,8 +23,8 @@ export function ActiveExamTokenCatch({
     children,
     routeUndoTo,
 }: React.PropsWithChildren<{ routeUndoTo: string }>) {
-    const examTokenStatus = useAppSelector(proctorSelector.examTokenStatus);
-    const examToken = useAppSelector(proctorSelector.examToken);
+    const examTokenStatus = useAppSelector(proctorSelectors.examTokenStatus);
+    const examToken = useAppSelector(proctorSelectors.examToken);
     const history = useHistory();
     const dispatch = useAppDispatch();
 

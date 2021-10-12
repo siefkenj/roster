@@ -3,7 +3,7 @@ import { Button } from "react-bootstrap";
 import { FaDownload, FaSync } from "react-icons/fa";
 import { useAppDispatch } from "../../../app/hooks";
 import { exportThunks } from "../../../features/admin/export-thunks";
-import { modelDataThunks } from "../../../features/model-data/model-data";
+import { adminThunks } from "../../../features/admin/thunks";
 import { MatchesTable } from "./matches-table";
 
 export function MatchesView() {
@@ -17,7 +17,7 @@ export function MatchesView() {
                         variant="secondary"
                         size="sm"
                         onClick={() => {
-                            dispatch(modelDataThunks.fetchBookletMatches());
+                            dispatch(adminThunks.bookletMatches.fetch());
                         }}
                     >
                         <FaSync className="mr-2" />

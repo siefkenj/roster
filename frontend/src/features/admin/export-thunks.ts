@@ -4,8 +4,6 @@ import { compareString } from "../../libs/utils";
 import { modelDataSelectors } from "../model-data/model-data";
 import XLSX from "xlsx";
 import FileSaver from "file-saver";
-import { roomsSelector } from "../rooms/rooms-slice";
-import { studentsSelector } from "../students/student-slice";
 
 export function dataToFile(
     data: (string | null)[][],
@@ -94,7 +92,7 @@ export const exportThunks = {
         "admin/export/rooms",
         async (_: void, { getState }) => {
             const state = getState() as RootState;
-            const data = [...roomsSelector(state)];
+            const data = [...modelDataSelectors.rooms(state)];
             data.sort((a, b) => compareString(a.name, b.name));
 
             const spreadsheet = [["Room"] as (string | null)[]].concat(
@@ -109,7 +107,7 @@ export const exportThunks = {
         "admin/export/students",
         async (_: void, { getState }) => {
             const state = getState() as RootState;
-            const data = [...studentsSelector(state)];
+            const data = [...modelDataSelectors.students(state)];
             data.sort((a, b) =>
                 compareString(
                     (a.last_name || "") + ", " + (a.first_name || ""),

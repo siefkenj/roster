@@ -1,10 +1,8 @@
 import React from "react";
 import { Redirect, useRouteMatch } from "react-router";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import {
-    activeExamSelector,
-    fetchExamAndSetActiveThunk,
-} from "../../features/exam/exam-slice";
+import { adminSelectors } from "../../features/admin/exams";
+import { adminThunks } from "../../features/admin/thunks";
 
 /**
  * If we have an active exam, we want its url token to be present in the route. If we don't
@@ -16,7 +14,7 @@ export function ActiveExamWrapper({
     baseRoute,
 }: React.PropsWithChildren<{ baseRoute: string }>) {
     const dispatch = useAppDispatch();
-    const activeExam = useAppSelector(activeExamSelector);
+    const activeExam = useAppSelector(adminSelectors.activeExam);
     const match = useRouteMatch<{ exam_url_token: string }>(
         `${baseRoute}/exam/:exam_url_token`
     );
@@ -24,7 +22,9 @@ export function ActiveExamWrapper({
     React.useEffect(() => {
         if (matchedUrlToken && activeExam == null) {
             (async () => {
-                await dispatch(fetchExamAndSetActiveThunk(matchedUrlToken));
+                await dispatch(
+                    adminThunks.exams.fetchAndSetActive(matchedUrlToken)
+                );
             })();
         }
     }, [matchedUrlToken, activeExam, dispatch]);
