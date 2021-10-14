@@ -154,8 +154,8 @@ export function TokenSetup() {
                     style={{ verticalAlign: "sub" }}
                     className="mr-2"
                 />
-                The token <b>{examToken?.token}</b> can only be used once. If
-                you refresh the browser, you will need a new token.
+                The token <b>{examToken?.token}</b> can only be used once and
+                will be valid for three hours after activation.
             </Alert>
         );
     }
@@ -167,7 +167,7 @@ export function TokenSetup() {
             </h5>
             <InputGroup>
                 <InputGroup.Prepend>
-                    <InputGroup.Text id="name">Name</InputGroup.Text>
+                    <InputGroup.Text id="name">Your Name</InputGroup.Text>
                 </InputGroup.Prepend>
                 <FormControl
                     value={editableActiveUser.name || ""}

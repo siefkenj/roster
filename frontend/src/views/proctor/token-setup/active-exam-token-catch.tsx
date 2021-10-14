@@ -33,7 +33,7 @@ export function ActiveExamTokenCatch({
     // and invalidate the exam_token. So, offer the user a choice to go back or continue.
     if (examToken && examTokenStatus === "active") {
         return (
-            <React.Fragment>
+            <div className="proctor-token-setup-view">
                 <Alert variant="warning" className="mb-2">
                     <FaExclamationTriangle
                         style={{ verticalAlign: "sub" }}
@@ -45,7 +45,6 @@ export function ActiveExamTokenCatch({
                 </Alert>
                 <VSpace />
                 <Button
-                    className="mb-2"
                     variant="secondary"
                     onClick={() => {
                         history.push(routeUndoTo);
@@ -64,7 +63,7 @@ export function ActiveExamTokenCatch({
                 >
                     Enter a new Token
                 </Button>
-            </React.Fragment>
+            </div>
         );
     }
     return <React.Fragment>{children}</React.Fragment>;
