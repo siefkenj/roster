@@ -118,3 +118,18 @@ body,
     display: flex;
     flex-direction: column;
 }
+
+.spreadsheet-table {
+    border: 1px solid var(--secondary);
+    margin-left: auto;
+    margin-right: auto;
+}
+.spreadsheet-table td,
+.spreadsheet-table th {
+    border: 1px solid var(--secondary);
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+}
+.spreadsheet-table th {
+    text-align: center;
+}

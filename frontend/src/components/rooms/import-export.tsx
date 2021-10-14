@@ -7,6 +7,7 @@ import { RawRoom } from "../../api/raw-types";
 import { ImportButton } from "../import-button";
 import { modelDataSelectors } from "../../features/model-data/model-data";
 import { adminThunks } from "../../features/admin/thunks";
+import { FaLightbulb } from "react-icons/fa";
 
 export function ImportRoomsButton() {
     const dispatch = useAppDispatch();
@@ -52,7 +53,37 @@ export function ImportRoomsButton() {
         setFileContent(null);
     }
 
-    let dialogContent = <p>No data loaded...</p>;
+    let dialogContent = (
+        <React.Fragment>
+            <p>No data loaded...</p>
+            <Alert variant="info">
+                <p>
+                    <FaLightbulb className="mr-2" />
+                    Rooms should be in a single column with a header of{" "}
+                    <b>Name</b>.
+                </p>
+                <p>For example:</p>
+                <table className="spreadsheet-table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>AB 101</td>
+                        </tr>
+                        <tr>
+                            <td>AB 231</td>
+                        </tr>
+                        <tr>
+                            <td>MX 604</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </Alert>
+        </React.Fragment>
+    );
     if (processingError) {
         dialogContent = <Alert variant="danger">{"" + processingError}</Alert>;
     } else if (processedData) {

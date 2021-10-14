@@ -19,6 +19,7 @@ export function ExamTokensView() {
                         size="sm"
                         onClick={() => {
                             dispatch(adminThunks.examTokens.fetch());
+                            dispatch(adminThunks.users.fetch());
                         }}
                     >
                         <FaSync className="mr-2" />

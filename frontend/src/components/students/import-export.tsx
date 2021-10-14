@@ -7,6 +7,7 @@ import { RawStudent } from "../../api/raw-types";
 import { ImportButton } from "../import-button";
 import { modelDataSelectors } from "../../features/model-data/model-data";
 import { adminThunks } from "../../features/admin/thunks";
+import { FaLightbulb } from "react-icons/fa";
 
 export function ImportStudentsButton() {
     const dispatch = useAppDispatch();
@@ -55,7 +56,55 @@ export function ImportStudentsButton() {
         setFileContent(null);
     }
 
-    let dialogContent = <p>No data loaded...</p>;
+    let dialogContent = (
+        <React.Fragment>
+            <p>No data loaded...</p>
+            <Alert variant="info">
+                <p>
+                    <FaLightbulb className="mr-2" />
+                    Student information should be provided in a spreadsheet with
+                    the following headers:
+                    <b>First Name</b>, <b>Last Name</b>, <b>UTORid</b>,{" "}
+                    <b>ID Number</b>, <b>Email</b>, and <b>Matching Data</b>.
+                    The <b>UTORid</b> column is required. All other columns are
+                    optional.
+                </p>
+                <p>For example:</p>
+                <table className="spreadsheet-table">
+                    <thead>
+                        <tr>
+                            <th>First Name</th>
+                            <th>Last Name</th>
+                            <th>UTORid</th>
+                            <th>ID Number</th>
+                            <th>Email</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Tom</td>
+                            <td>Smith</td>
+                            <td>smitht</td>
+                            <td>123412312</td>
+                            <td>smith.t@email.com</td>
+                        </tr>
+                        <tr>
+                            <td>Amy</td>
+                            <td>Malar</td>
+                            <td>marala</td>
+                            <td>233412312</td>
+                            <td>maral.a@google.com</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p>
+                    If the first/last names are not split, you can enter the
+                    full name in the <b>Last Name</b> column and leave the{" "}
+                    <b>First Name</b> column blank.
+                </p>
+            </Alert>
+        </React.Fragment>
+    );
     if (processingError) {
         dialogContent = <Alert variant="danger">{"" + processingError}</Alert>;
     } else if (processedData) {
