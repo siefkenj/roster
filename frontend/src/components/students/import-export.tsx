@@ -65,9 +65,9 @@ export function ImportStudentsButton() {
                     Student information should be provided in a spreadsheet with
                     the following headers:
                     <b>First Name</b>, <b>Last Name</b>, <b>UTORid</b>,{" "}
-                    <b>ID Number</b>, <b>Email</b>, and <b>Matching Data</b>.
-                    The <b>UTORid</b> column is required. All other columns are
-                    optional.
+                    <b>Student Number</b>, <b>Email</b>, and{" "}
+                    <b>Matching Data</b>. The <b>UTORid</b> column is required.
+                    All other columns are optional.
                 </p>
                 <p>For example:</p>
                 <table className="spreadsheet-table">
@@ -76,7 +76,7 @@ export function ImportStudentsButton() {
                             <th>First Name</th>
                             <th>Last Name</th>
                             <th>UTORid</th>
-                            <th>ID Number</th>
+                            <th>Student Number</th>
                             <th>Email</th>
                         </tr>
                     </thead>
