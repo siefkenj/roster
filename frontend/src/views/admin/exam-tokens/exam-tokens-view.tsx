@@ -3,10 +3,7 @@ import { Button, ButtonGroup, ToggleButton } from "react-bootstrap";
 import { FaDownload, FaHourglassEnd, FaPlus, FaSync } from "react-icons/fa";
 import { useAppDispatch } from "../../../app/hooks";
 import { exportThunks } from "../../../features/admin/export-thunks";
-import {
-    fetchExamTokensThunk,
-    upsertExamTokenThunk,
-} from "../../../features/exam_tokens/exam-tokens-slice";
+import { adminThunks } from "../../../features/admin/thunks";
 import { ExamTokensTable } from "./exam-tokens-table";
 
 export function ExamTokensView() {
@@ -21,7 +18,7 @@ export function ExamTokensView() {
                         variant="secondary"
                         size="sm"
                         onClick={() => {
-                            dispatch(fetchExamTokensThunk());
+                            dispatch(adminThunks.examTokens.fetch());
                         }}
                     >
                         <FaSync className="mr-2" />
@@ -29,7 +26,7 @@ export function ExamTokensView() {
                     </Button>
                     <Button
                         onClick={() => {
-                            dispatch(upsertExamTokenThunk({}));
+                            dispatch(adminThunks.examTokens.upsert({}));
                         }}
                         size="sm"
                     >

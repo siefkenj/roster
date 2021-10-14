@@ -2,17 +2,14 @@ import React from "react";
 import { FaTimes, FaTrash } from "react-icons/fa";
 import { Room } from "../../api/types";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import {
-    deleteRoomThunk,
-    roomsSelector,
-    upsertRoomThunk,
-} from "../../features/rooms/rooms-slice";
+import { adminThunks } from "../../features/admin/thunks";
+import { modelDataSelectors } from "../../features/model-data/model-data";
 import { EditableCell } from "../editable-cell";
 import { AdvancedFilterTable } from "../filter-table/advanced-filter-table";
 import { generateHeaderCell } from "../table-utils";
 
 export function RoomsTable({ inDeleteMode = false }) {
-    const rooms = useAppSelector(roomsSelector);
+    const rooms = useAppSelector(modelDataSelectors.rooms);
     const dispatch = useAppDispatch();
 
     const columns = React.useMemo(() => {
@@ -25,7 +22,7 @@ export function RoomsTable({ inDeleteMode = false }) {
                         className="delete-row-button"
                         title={`Delete ${room.name}`}
                         onClick={async () => {
-                            await dispatch(deleteRoomThunk(room));
+                            await dispatch(adminThunks.rooms.delete(room));
                         }}
                     />
                 </div>
@@ -36,7 +33,7 @@ export function RoomsTable({ inDeleteMode = false }) {
                 <EditableCell
                     field={field}
                     upsert={async (room: Partial<Room>) => {
-                        await dispatch(upsertRoomThunk(room));
+                        await dispatch(adminThunks.rooms.upsert(room));
                     }}
                     {...props}
                 />

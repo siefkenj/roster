@@ -13,7 +13,7 @@ import {
     fetchActiveUserThunk,
 } from "../../../features/active-user/user-slice";
 import {
-    proctorSelector,
+    proctorSelectors,
     proctorSlice,
     proctorThunks,
 } from "../../../features/proctor/proctor-slice";
@@ -47,9 +47,9 @@ function formatDatetime(datetime: string) {
 export function MatchingInterface() {
     const activeUser = useAppSelector(activeUserSelector);
     const dispatch = useAppDispatch();
-    const activeStudent = useAppSelector(proctorSelector.activeStudent);
+    const activeStudent = useAppSelector(proctorSelectors.activeStudent);
     const activeBookletMatch = useAppSelector(
-        proctorSelector.activeBookletMatch
+        proctorSelectors.activeBookletMatch
     );
     const history = useHistory();
     const [waiting, setWaiting] = React.useState(false);

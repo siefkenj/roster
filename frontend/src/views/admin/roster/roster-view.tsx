@@ -6,7 +6,7 @@ import { ImportStudentsButton } from "../../../components/students/import-export
 import { AddStudentDialog } from "../../../components/students/student-add-dialog";
 import { StudentsTable } from "../../../components/students/students-table";
 import { exportThunks } from "../../../features/admin/export-thunks";
-import { fetchStudentsThunk } from "../../../features/students/student-slice";
+import { adminStudentThunks } from "../../../features/model-data/students";
 
 export function RosterView() {
     const [inDeleteMode, setInDeleteMode] = React.useState(false);
@@ -23,7 +23,7 @@ export function RosterView() {
                         variant="secondary"
                         size="sm"
                         onClick={() => {
-                            dispatch(fetchStudentsThunk());
+                            dispatch(adminStudentThunks.fetch());
                         }}
                     >
                         <FaSync className="mr-2" />

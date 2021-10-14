@@ -1,15 +1,15 @@
 import React from "react";
 import { Form, FormControl } from "react-bootstrap";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
+import { modelDataSelectors } from "../../../features/model-data/model-data";
 import {
-    proctorSelector,
+    proctorSelectors,
     proctorSlice,
 } from "../../../features/proctor/proctor-slice";
-import { roomsSelector } from "../../../features/rooms/rooms-slice";
 
 export function RoomSelector() {
-    const activeRoom = useAppSelector(proctorSelector.activeRoom);
-    const rooms = useAppSelector(roomsSelector);
+    const activeRoom = useAppSelector(proctorSelectors.activeRoom);
+    const rooms = useAppSelector(modelDataSelectors.rooms);
     const dispatch = useAppDispatch();
 
     return (

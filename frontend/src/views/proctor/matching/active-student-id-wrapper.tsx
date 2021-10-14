@@ -2,7 +2,7 @@ import React from "react";
 import { useHistory, useRouteMatch } from "react-router";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 import {
-    proctorSelector,
+    proctorSelectors,
     proctorSlice,
 } from "../../../features/proctor/proctor-slice";
 
@@ -16,7 +16,7 @@ export function ActiveStudentIdWrapper({
     baseRoute,
 }: React.PropsWithChildren<{ baseRoute: string }>) {
     const dispatch = useAppDispatch();
-    const activeStudentId = useAppSelector(proctorSelector.activeStudentId);
+    const activeStudentId = useAppSelector(proctorSelectors.activeStudentId);
     const history = useHistory();
     const fullMatch = useRouteMatch<{ student_id: string; cookie: string }>(
         `${baseRoute}/cookie/:cookie/students/:student_id`

@@ -2,14 +2,14 @@ import React from "react";
 import { Typeahead } from "react-bootstrap-typeahead";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 import {
-    proctorSelector,
+    proctorSelectors,
     proctorThunks,
 } from "../../../features/proctor/proctor-slice";
-import { studentsSelector } from "../../../features/students/student-slice";
 import "react-bootstrap-typeahead/css/Typeahead.css";
 import { Student } from "../../../api/types";
 import { Spinner } from "react-bootstrap";
 import { useHistory } from "react-router";
+import { modelDataSelectors } from "../../../features/model-data/model-data";
 
 function formatStudentName(student: Student): string {
     return [student.first_name, student.last_name, `(${student.utorid})`]
@@ -38,11 +38,11 @@ function studentToLabeledStudent(student: Student) {
  * Match students to booklets.
  */
 export function StudentSelectorInterface() {
-    const fetchingStudents = useAppSelector(proctorSelector.fetchingStudents);
+    const fetchingStudents = useAppSelector(proctorSelectors.fetchingStudents);
     const dispatch = useAppDispatch();
     const history = useHistory();
-    const students = useAppSelector(studentsSelector);
-    const activeStudent = useAppSelector(proctorSelector.activeStudent);
+    const students = useAppSelector(modelDataSelectors.students);
+    const activeStudent = useAppSelector(proctorSelectors.activeStudent);
 
     const labeledStudents = React.useMemo(
         () => students.map(studentToLabeledStudent),

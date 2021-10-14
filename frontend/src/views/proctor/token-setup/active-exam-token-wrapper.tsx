@@ -5,7 +5,7 @@ import { Redirect, useHistory, useRouteMatch } from "react-router";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 import { VSpace } from "../../../components/layout";
 import {
-    proctorSelector,
+    proctorSelectors,
     proctorSlice,
     proctorThunks,
 } from "../../../features/proctor/proctor-slice";
@@ -24,8 +24,8 @@ export function ActiveExamTokenWrapper({
     children,
     baseRoute,
 }: React.PropsWithChildren<{ baseRoute: string }>) {
-    const examTokenStatus = useAppSelector(proctorSelector.examTokenStatus);
-    const examToken = useAppSelector(proctorSelector.examToken);
+    const examTokenStatus = useAppSelector(proctorSelectors.examTokenStatus);
+    const examToken = useAppSelector(proctorSelectors.examToken);
     const dispatch = useAppDispatch();
     const history = useHistory();
     const match = useRouteMatch<{ cookie: string }>(

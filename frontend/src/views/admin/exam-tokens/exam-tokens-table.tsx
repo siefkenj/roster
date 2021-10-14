@@ -5,10 +5,7 @@ import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 import { EditableCell, EditableType } from "../../../components/editable-cell";
 import { AdvancedFilterTable } from "../../../components/filter-table/advanced-filter-table";
 import { generateHeaderCell } from "../../../components/table-utils";
-import {
-    invalidateExamTokenThunk,
-    upsertExamTokenThunk,
-} from "../../../features/exam_tokens/exam-tokens-slice";
+import { adminThunks } from "../../../features/admin/thunks";
 import { modelDataSelectors } from "../../../features/model-data/model-data";
 
 export function ExamTokensTable({ inDeleteMode = false }) {
@@ -27,7 +24,9 @@ export function ExamTokensTable({ inDeleteMode = false }) {
                         className="delete-row-button"
                         title={`Invalidate ${examToken.token}`}
                         onClick={async () => {
-                            await dispatch(invalidateExamTokenThunk(examToken));
+                            await dispatch(
+                                adminThunks.examTokens.invalidate(examToken)
+                            );
                         }}
                     />
                 </div>
@@ -39,7 +38,9 @@ export function ExamTokensTable({ inDeleteMode = false }) {
                     field={field}
                     type={type}
                     upsert={async (examToken: Partial<ExamToken>) => {
-                        await dispatch(upsertExamTokenThunk(examToken));
+                        await dispatch(
+                            adminThunks.examTokens.upsert(examToken)
+                        );
                     }}
                     {...props}
                 />

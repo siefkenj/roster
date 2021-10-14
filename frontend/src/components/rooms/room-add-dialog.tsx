@@ -4,10 +4,8 @@ import { strip } from "../../libs/utils";
 import { Room } from "../../api/types";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { DialogRow } from "../forms/common-controls";
-import {
-    roomsSelector,
-    upsertRoomThunk,
-} from "../../features/rooms/rooms-slice";
+import { modelDataSelectors } from "../../features/model-data/model-data";
+import { adminThunks } from "../../features/admin/thunks";
 
 const BLANK_ROOM: Omit<Room, "id"> = {
     name: "",
@@ -94,11 +92,11 @@ export function AddRoomDialog(props: {
     const { show, onHide = () => {} } = props;
     const [newRoom, setNewRoom] = React.useState<Partial<Room>>(BLANK_ROOM);
     const [inProgress, setInProgress] = React.useState(false);
-    const rooms = useAppSelector(roomsSelector);
+    const rooms = useAppSelector(modelDataSelectors.rooms);
     const dispatch = useAppDispatch();
 
     function _upsertRoom(applicant: Partial<Room>) {
-        return dispatch(upsertRoomThunk(applicant));
+        return dispatch(adminThunks.rooms.upsert(applicant));
     }
 
     React.useEffect(() => {

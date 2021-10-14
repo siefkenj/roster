@@ -2,7 +2,7 @@ import React from "react";
 import { FormControl, InputGroup } from "react-bootstrap";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 import {
-    proctorSelector,
+    proctorSelectors,
     proctorSlice,
 } from "../../../features/proctor/proctor-slice";
 
@@ -12,11 +12,11 @@ import {
 export function BookletView() {
     const dispatch = useAppDispatch();
     const activeBookletMatch = useAppSelector(
-        proctorSelector.activeBookletMatch
+        proctorSelectors.activeBookletMatch
     );
-    const activeStudent = useAppSelector(proctorSelector.activeStudent);
+    const activeStudent = useAppSelector(proctorSelectors.activeStudent);
     const editableBookletMatch = useAppSelector(
-        proctorSelector.editableBookletMatch
+        proctorSelectors.editableBookletMatch
     );
 
     return (

@@ -6,7 +6,7 @@ import { ImportRoomsButton } from "../../../components/rooms/import-export";
 import { AddRoomDialog } from "../../../components/rooms/room-add-dialog";
 import { RoomsTable } from "../../../components/rooms/rooms-table";
 import { exportThunks } from "../../../features/admin/export-thunks";
-import { fetchRoomsThunk } from "../../../features/rooms/rooms-slice";
+import { adminThunks } from "../../../features/admin/thunks";
 
 export function RoomsView() {
     const [inDeleteRoomsMode, setInDeleteRoomsMode] = React.useState(false);
@@ -21,7 +21,7 @@ export function RoomsView() {
                         variant="secondary"
                         size="sm"
                         onClick={() => {
-                            dispatch(fetchRoomsThunk());
+                            dispatch(adminThunks.rooms.fetch());
                         }}
                     >
                         <FaSync className="mr-2" />

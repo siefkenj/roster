@@ -3,11 +3,8 @@ import { Button, Nav, Navbar, Tab, Tabs } from "react-bootstrap";
 import { FaPlus } from "react-icons/fa";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { AddExamDialog } from "../../components/exams/exam-add-dialog";
-import { activeExamSelector } from "../../features/exam/exam-slice";
-import { fetchExamTokensThunk } from "../../features/exam_tokens/exam-tokens-slice";
-import { modelDataThunks } from "../../features/model-data/model-data";
-import { fetchRoomsThunk } from "../../features/rooms/rooms-slice";
-import { fetchStudentsThunk } from "../../features/students/student-slice";
+import { adminSelectors } from "../../features/admin/exams";
+import { adminThunks } from "../../features/admin/thunks";
 import { ExamSelector } from "./exam-selector";
 import { ExamTokensView } from "./exam-tokens/exam-tokens-view";
 import { MatchesView } from "./matches/matches-view";
@@ -18,7 +15,7 @@ export function AdminLanding() {
     const [showAddExamDialog, setShowAddExamDialog] = React.useState(false);
     const [activeTab, setActiveTab] = React.useState("rooms");
     const dispatch = useAppDispatch();
-    const activeExam = useAppSelector(activeExamSelector);
+    const activeExam = useAppSelector(adminSelectors.activeExam);
 
     React.useEffect(() => {
         if (activeExam == null) {
@@ -26,11 +23,11 @@ export function AdminLanding() {
         }
         (async () => {
             await Promise.all([
-                dispatch(fetchExamTokensThunk()),
-                dispatch(fetchRoomsThunk()),
-                dispatch(modelDataThunks.fetchUsers()),
-                dispatch(modelDataThunks.fetchBookletMatches()),
-                dispatch(fetchStudentsThunk()),
+                dispatch(adminThunks.examTokens.fetch()),
+                dispatch(adminThunks.rooms.fetch()),
+                dispatch(adminThunks.users.fetch()),
+                dispatch(adminThunks.bookletMatches.fetch()),
+                dispatch(adminThunks.students.fetch()),
             ]);
         })();
     }, [dispatch, activeExam]);

@@ -1,18 +1,16 @@
 import React from "react";
 import { Alert, Table } from "react-bootstrap";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import {
-    studentsSelector,
-    uploadStudentRosterThunk,
-} from "../../features/students/student-slice";
 import { normalizeImport } from "../../libs/import-export/normalize-import";
 import { studentSchema } from "../../libs/schema";
 import { RawStudent } from "../../api/raw-types";
 import { ImportButton } from "../import-button";
+import { modelDataSelectors } from "../../features/model-data/model-data";
+import { adminThunks } from "../../features/admin/thunks";
 
 export function ImportStudentsButton() {
     const dispatch = useAppDispatch();
-    const students = useAppSelector(studentsSelector);
+    const students = useAppSelector(modelDataSelectors.students);
     const [fileContent, setFileContent] = React.useState<{
         fileType: "json" | "spreadsheet";
         data: any;
@@ -52,7 +50,7 @@ export function ImportStudentsButton() {
             throw new Error("Unable to find student data");
         }
 
-        await dispatch(uploadStudentRosterThunk(processedData));
+        await dispatch(adminThunks.students.uploadRoster(processedData));
 
         setFileContent(null);
     }
