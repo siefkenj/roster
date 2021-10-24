@@ -28,6 +28,7 @@ export function BookletView() {
                 <FormControl
                     disabled={!!activeBookletMatch || !activeStudent}
                     value={editableBookletMatch.booklet}
+                    inputMode="numeric"
                     onChange={(e) => {
                         const booklet = e.target.value;
                         dispatch(

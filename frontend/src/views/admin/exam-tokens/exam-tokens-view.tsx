@@ -19,6 +19,7 @@ export function ExamTokensView() {
                         size="sm"
                         onClick={() => {
                             dispatch(adminThunks.examTokens.fetch());
+                            dispatch(adminThunks.users.fetch());
                         }}
                     >
                         <FaSync className="mr-2" />
@@ -60,7 +61,7 @@ export function ExamTokensView() {
                     <p>
                         Set up the students for your exam. You may upload a
                         spreadsheet with <i>First Name</i>, <i>Last Name</i>,{" "}
-                        <i>UTORid</i>, <i>Id Number</i>, <i>Email</i>, and{" "}
+                        <i>UTORid</i>, <i>Student Number</i>, <i>Email</i>, and{" "}
                         <i>Matching Data</i> columns.
                     </p>
                     <ExamTokensTable inDeleteMode={inDeleteMode} />

@@ -37,6 +37,7 @@ export const studentSchema: NormalizationSchema<
         "Family Name": "last_name",
         Last: "last_name",
         "Student Number": "student_number",
+        "ID Number": "student_number",
         "Student ID": "student_number",
         "Matching Data": "matching_data",
         "Extra Data": "matching_data",

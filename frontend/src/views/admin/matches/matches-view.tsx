@@ -18,6 +18,7 @@ export function MatchesView() {
                         size="sm"
                         onClick={() => {
                             dispatch(adminThunks.bookletMatches.fetch());
+                            dispatch(adminThunks.users.fetch());
                         }}
                     >
                         <FaSync className="mr-2" />
