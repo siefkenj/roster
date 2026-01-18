@@ -49,7 +49,7 @@ export function MatchingInterface() {
     const dispatch = useAppDispatch();
     const activeStudent = useAppSelector(proctorSelectors.activeStudent);
     const activeBookletMatch = useAppSelector(
-        proctorSelectors.activeBookletMatch
+        proctorSelectors.activeBookletMatch,
     );
     const history = useHistory();
     const [waiting, setWaiting] = React.useState(false);
@@ -121,14 +121,14 @@ export function MatchingInterface() {
                         onClick={async () => {
                             if (!activeUser) {
                                 console.warn(
-                                    "Attempting to proceed, but the active_user/token/room requirements are not met. Aborting instead."
+                                    "Attempting to proceed, but the active_user/token/room requirements are not met. Aborting instead.",
                                 );
                                 return;
                             }
                             try {
                                 setWaiting(true);
                                 await dispatch(
-                                    proctorThunks.deleteBookletMatchForStudent()
+                                    proctorThunks.deleteBookletMatchForStudent(),
                                 );
                             } finally {
                                 setWaiting(false);
@@ -146,7 +146,7 @@ export function MatchingInterface() {
                         onClick={async () => {
                             if (!activeUser) {
                                 console.warn(
-                                    "Attempting to proceed, but the active_user/token/room requirements are not met. Aborting instead."
+                                    "Attempting to proceed, but the active_user/token/room requirements are not met. Aborting instead.",
                                 );
                                 return;
                             }
@@ -154,8 +154,8 @@ export function MatchingInterface() {
                                 setWaiting(true);
                                 await dispatch(
                                     proctorThunks.createBookletMatchForStudentWithSuccessTransition(
-                                        history
-                                    )
+                                        history,
+                                    ),
                                 );
                             } finally {
                                 setWaiting(false);
@@ -174,7 +174,7 @@ export function MatchingInterface() {
                                     proctorThunks.setActiveStudentId({
                                         activeStudentId: null,
                                         history,
-                                    })
+                                    }),
                                 );
                             }}
                         >

@@ -8,12 +8,12 @@ import {
 type NotificationsState = Notification[];
 type NotificationsReducer<A extends Action> = (
     state: NotificationsState,
-    action: A
+    action: A,
 ) => NotificationsState;
 
 export const Notifications: NotificationsReducer<any> = function Notifications(
     state = [],
-    action = {}
+    action = {},
 ) {
     switch (action.type) {
         case RNS_SHOW_NOTIFICATION:

@@ -10,9 +10,8 @@ import { adminStudentThunks } from "../../../features/model-data/students";
 
 export function RosterView() {
     const [inDeleteMode, setInDeleteMode] = React.useState(false);
-    const [showAddStudentDialog, setShowAddStudentDialog] = React.useState(
-        false
-    );
+    const [showAddStudentDialog, setShowAddStudentDialog] =
+        React.useState(false);
     const dispatch = useAppDispatch();
 
     return (

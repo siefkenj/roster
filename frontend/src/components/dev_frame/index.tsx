@@ -50,7 +50,7 @@ function ConnectedActiveUserButton() {
         async function fetchUsers() {
             return await dispatch(debugThunks.fetchUsers());
         },
-        [dispatch]
+        [dispatch],
     );
     const setActiveUser = React.useCallback(
         async function setActiveUser(user?: RawUser | null) {
@@ -60,7 +60,7 @@ function ConnectedActiveUserButton() {
             }
             return await dispatch(debugThunks.setActiveUser(user));
         },
-        [dispatch]
+        [dispatch],
     );
 
     return (

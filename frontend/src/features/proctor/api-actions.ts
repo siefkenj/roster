@@ -10,12 +10,12 @@ import { apiGET, apiPOST } from "../../api/utils";
 export const proctorApi = {
     fetchExamToken: async (shortToken: string) => {
         return (await apiGET(
-            `/proctor/exam_tokens/${shortToken}`
+            `/proctor/exam_tokens/${shortToken}`,
         )) as RawExamToken;
     },
     fetchRooms: async (shortToken: string) => {
         return (await apiGET(
-            `/proctor/exam_tokens/${shortToken}/rooms`
+            `/proctor/exam_tokens/${shortToken}/rooms`,
         )) as RawRoom[];
     },
     activateExamToken: async (shortToken: string, room_id: number | null) => {
@@ -25,36 +25,36 @@ export const proctorApi = {
         }
         return (await apiPOST(
             `/proctor/exam_tokens/${shortToken}/activate`,
-            body
+            body,
         )) as RawExamToken;
     },
     fetchExamTokenByCookie: async (cookie: string) => {
         return (await apiGET(
-            `/proctor/authenticated/${cookie}/exam_tokens`
+            `/proctor/authenticated/${cookie}/exam_tokens`,
         )) as RawExamToken;
     },
     fetchStudents: async (cookie: string) => {
         return (await apiGET(
-            `/proctor/authenticated/${cookie}/students`
+            `/proctor/authenticated/${cookie}/students`,
         )) as RawStudent[];
     },
     fetchBookletMatchForStudent: async (cookie: string, studentId: number) => {
         return (await apiGET(
-            `/proctor/authenticated/${cookie}/students/${studentId}/booklet_matches`
+            `/proctor/authenticated/${cookie}/students/${studentId}/booklet_matches`,
         )) as RawBookletMatch | null;
     },
     deleteBookletMatch: async (cookie: string, bookletMatchId: number) => {
         return (await apiPOST(
-            `/proctor/authenticated/${cookie}/booklet_matches/${bookletMatchId}/delete`
+            `/proctor/authenticated/${cookie}/booklet_matches/${bookletMatchId}/delete`,
         )) as RawBookletMatch;
     },
     createBookletMatch: async (
         cookie: string,
-        bookletMatch: Partial<BookletMatch>
+        bookletMatch: Partial<BookletMatch>,
     ) => {
         return (await apiPOST(
             `/proctor/authenticated/${cookie}/booklet_matches`,
-            bookletMatch
+            bookletMatch,
         )) as RawBookletMatch;
     },
 };

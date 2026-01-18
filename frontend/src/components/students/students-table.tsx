@@ -23,7 +23,7 @@ export function StudentsTable({ inDeleteMode = false }) {
                         title={`Delete ${student.last_name}, ${student.first_name}`}
                         onClick={async () => {
                             await dispatch(
-                                adminThunks.students.delete(student)
+                                adminThunks.students.delete(student),
                             );
                         }}
                     />

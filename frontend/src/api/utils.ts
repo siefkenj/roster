@@ -101,7 +101,7 @@ async function _processFetchResponse(resp: Response, path: string) {
  */
 async function apiGET<Path extends string, Ret = ApiGetReturnType<Path>>(
     path: Path,
-    omitPrefix = false
+    omitPrefix = false,
 ): Promise<Ret> {
     // remove a leading "/" if there is one in `path`
     path = _ensurePath(path) as Path;
@@ -110,7 +110,7 @@ async function apiGET<Path extends string, Ret = ApiGetReturnType<Path>>(
         {
             ...FETCH_INIT,
             method: "GET",
-        }
+        },
     );
     return await _processFetchResponse(resp, path);
 }
@@ -133,7 +133,7 @@ async function apiPOST(path: string, body: any = {}, omitPrefix = false) {
             ...FETCH_INIT,
             method: "POST",
             body: JSON.stringify(body),
-        }
+        },
     );
     return await _processFetchResponse(resp, path);
 }
@@ -159,18 +159,16 @@ type ExtractPathVariable<T extends string> = T extends `:${string}`
 type PathParts<Path extends string> = Path extends `/${infer Rest}`
     ? PathParts<Rest>
     : Path extends `${infer Start}/${infer Rest}`
-    ? [ExtractPathVariable<Start>, ...PathParts<`${Rest}`>]
-    : Path extends `${infer Item}`
-    ? [ExtractPathVariable<Item>]
-    : never;
+      ? [ExtractPathVariable<Start>, ...PathParts<`${Rest}`>]
+      : Path extends `${infer Item}`
+        ? [ExtractPathVariable<Item>]
+        : never;
 
-type ApiGetReturnType<
-    Url extends string,
-    UrlPath = PathParts<Url>
-> = UrlPath extends PathParts<`/exams`>
-    ? RawExam[]
-    : UrlPath extends PathParts<`/exams/:url_token`>
-    ? RawExam
-    : UrlPath extends PathParts<`/exams/:url_token/delete`>
-    ? RawExam
-    : unknown;
+type ApiGetReturnType<Url extends string, UrlPath = PathParts<Url>> =
+    UrlPath extends PathParts<`/exams`>
+        ? RawExam[]
+        : UrlPath extends PathParts<`/exams/:url_token`>
+          ? RawExam
+          : UrlPath extends PathParts<`/exams/:url_token/delete`>
+            ? RawExam
+            : unknown;

@@ -15,7 +15,7 @@ export function ExamSelector() {
     const [sortedExams, displayExams] = React.useMemo(() => {
         const examsCopy = [...exams];
         examsCopy.sort((a, b) =>
-            (a.end_time || "").localeCompare(b.end_time || "")
+            (a.end_time || "").localeCompare(b.end_time || ""),
         );
         return [
             examsCopy,

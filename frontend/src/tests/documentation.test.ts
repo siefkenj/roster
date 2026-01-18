@@ -28,7 +28,7 @@ describe("Documentation tests", () => {
         // Generate types from the typescript definitions
         const program = TJS.getProgramFromFiles(
             [resolve(BASE_PATH + "/" + TYPES_FILE)],
-            COMPLIER_OPTIONS
+            COMPLIER_OPTIONS,
         );
 
         const schema = TJS.generateSchema(program, "*");

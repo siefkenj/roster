@@ -37,7 +37,7 @@ const basicReducers = createBasicReducers(
         exam_tokens: "exam_token",
         rooms: "room",
     } as const,
-    "model_data"
+    "model_data",
 );
 
 export const modelDataSlice = createSlice({
@@ -49,7 +49,7 @@ export const modelDataSlice = createSlice({
         upsertExam: (state, action: PayloadAction<Exam>) => {
             const newExam = action.payload;
             const exam = state.exams.find(
-                (e) => e.url_token === newExam.url_token
+                (e) => e.url_token === newExam.url_token,
             );
             if (exam) {
                 Object.assign(exam, newExam);
@@ -60,7 +60,7 @@ export const modelDataSlice = createSlice({
         deleteExam: (state, action: PayloadAction<Exam>) => {
             const exam = action.payload;
             const matchingRoomIndex = state.exams.findIndex(
-                (s) => s.url_token === exam.url_token
+                (s) => s.url_token === exam.url_token,
             );
             if (matchingRoomIndex !== -1) {
                 state.exams.splice(matchingRoomIndex, 1);
@@ -71,11 +71,11 @@ export const modelDataSlice = createSlice({
          */
         removeBookletMatchesForStudentById: (
             state,
-            action: PayloadAction<number>
+            action: PayloadAction<number>,
         ) => {
             const studentId = action.payload;
             const matchingBookletMatchesIndex = state.booklet_matches.findIndex(
-                (s) => s.student_id === studentId
+                (s) => s.student_id === studentId,
             );
             if (matchingBookletMatchesIndex) {
                 state.booklet_matches.splice(matchingBookletMatchesIndex, 1);
@@ -98,7 +98,7 @@ export const modelDataSelectors = {
         const users = modelDataSelectors.users(state);
 
         const studentsHash = new Map(
-            students.map((student) => [student.id, student])
+            students.map((student) => [student.id, student]),
         );
         const roomsHash = new Map(rooms.map((room) => [room.id, room]));
         const usersHash = new Map(users.map((user) => [user.id, user]));
@@ -149,8 +149,8 @@ export const modelDataSelectors = {
                     examToken.status === "active"
                         ? "Active"
                         : examToken.status === "unused"
-                        ? "Not Used"
-                        : "Expired",
+                          ? "Not Used"
+                          : "Expired",
             };
         });
     },

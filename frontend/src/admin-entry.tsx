@@ -9,7 +9,7 @@ import "./admin-entry.css";
 
 function App() {
     const notifications = useAppSelector(
-        (state) => state.notifications as any[]
+        (state) => state.notifications as any[],
     );
     return (
         <div className="admin-view">

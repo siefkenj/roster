@@ -21,7 +21,7 @@ export const debugThunks = {
         async (_: void, { dispatch }) => {
             const users = await debugApi.fetchUsers();
             return dispatch(debugSlice.actions.setUsers(users));
-        }
+        },
     ),
     setActiveUser: createAsyncThunkWithErrorNotifications(
         "debug/active_user/set",
@@ -33,14 +33,14 @@ export const debugThunks = {
             }
             const activeUser = await debugApi.setActiveUser(user);
             dispatch(userSlice.actions.setActiveUser(activeUser));
-        }
+        },
     ),
     upsertUser: createAsyncThunkWithErrorNotifications(
         "debug/users/upsert",
         async (user: RawUser, { dispatch }) => {
             const newUser = await debugApi.upsertUser(user);
             return dispatch(debugSlice.actions.upsertUser(newUser));
-        }
+        },
     ),
 };
 export const debugSlice = createSlice({

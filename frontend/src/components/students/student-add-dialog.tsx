@@ -49,7 +49,7 @@ export function StudentEditor(props: {
     function createFieldEditor(
         title: string,
         attr: keyof Student,
-        type = "text"
+        type = "text",
     ) {
         return (
             <React.Fragment>
@@ -99,7 +99,7 @@ function getConflicts(student: Partial<Student>, students: Student[]) {
         ret.delayShow = "A first name, last name, and utorid is required";
     }
     const matchingStudent = students.find(
-        (x) => strip(x.utorid) === strip(student.utorid || "")
+        (x) => strip(x.utorid) === strip(student.utorid || ""),
     );
     if (matchingStudent) {
         ret.immediateShow = (
@@ -119,9 +119,8 @@ export function AddStudentDialog(props: {
     onHide?: (...args: any) => any;
 }) {
     const { show, onHide = () => {} } = props;
-    const [newStudent, setNewStudent] = React.useState<Partial<Student>>(
-        BLANK_STUDENT
-    );
+    const [newStudent, setNewStudent] =
+        React.useState<Partial<Student>>(BLANK_STUDENT);
     const [inProgress, setInProgress] = React.useState(false);
     const students = useAppSelector(modelDataSelectors.students);
     const dispatch = useAppDispatch();

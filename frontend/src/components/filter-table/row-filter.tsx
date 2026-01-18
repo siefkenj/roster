@@ -64,7 +64,7 @@ export function FilterBar({
 
     const displayFilterStrings = filterStrings.filter((s) => strip(s));
     const normalizedFilterStrings = filterStrings.map((s) =>
-        strip(s.toLowerCase())
+        strip(s.toLowerCase()),
     );
 
     /**
@@ -99,7 +99,7 @@ export function FilterBar({
             return;
         }
         const updatedFilterStrings = filterStrings.filter(
-            (oldString) => oldString !== filterString
+            (oldString) => oldString !== filterString,
         );
         setFilterStrings(updatedFilterStrings);
     }

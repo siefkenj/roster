@@ -56,7 +56,7 @@ export function ActiveExamTokenCatch({
                 <Button
                     onClick={() => {
                         dispatch(
-                            proctorSlice.actions.setEditableShortToken("")
+                            proctorSlice.actions.setEditableShortToken(""),
                         );
                         dispatch(proctorSlice.actions.setExamToken(null));
                     }}

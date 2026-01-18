@@ -12,14 +12,14 @@ export const proctorExamTokenThunks = {
                 const exam_token = await proctorApi.fetchExamToken(shortToken);
                 dispatch(proctorSlice.actions.setExamToken(exam_token));
                 dispatch(
-                    proctorSlice.actions.setActiveRoomId(exam_token.room_id)
+                    proctorSlice.actions.setActiveRoomId(exam_token.room_id),
                 );
                 dispatch(proctorSlice.actions.setExamTokenStatus("valid"));
             } catch (e) {
                 dispatch(proctorSlice.actions.setExamToken(null));
                 dispatch(proctorSlice.actions.setExamTokenStatus("invalid"));
             }
-        }
+        },
     ),
     fetchExamTokenByCookie: createAsyncThunkWithErrorNotifications(
         "proctor/exam_token/fetchByCookie",
@@ -28,7 +28,7 @@ export const proctorExamTokenThunks = {
             dispatch(proctorSlice.actions.setExamToken(exam_token));
             dispatch(proctorSlice.actions.setActiveRoomId(exam_token.room_id));
             dispatch(proctorSlice.actions.setExamTokenStatus("active"));
-        }
+        },
     ),
     activateExamToken: createAsyncThunkWithErrorNotifications(
         "proctor/exam_token/activate",
@@ -41,10 +41,10 @@ export const proctorExamTokenThunks = {
             }
             const activatedExamToken = await proctorApi.activateExamToken(
                 examToken.token,
-                activeRoomId
+                activeRoomId,
             );
             dispatch(proctorSlice.actions.setExamToken(activatedExamToken));
             dispatch(proctorSlice.actions.setExamTokenStatus("active"));
-        }
+        },
     ),
 };

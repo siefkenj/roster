@@ -157,7 +157,7 @@ export function EditableField<T extends string | number>(
     props: EditFieldProps<T> & {
         children: React.ReactNode | null;
         editable: boolean;
-    }
+    },
 ) {
     const {
         children,

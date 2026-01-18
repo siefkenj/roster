@@ -16,8 +16,8 @@ export function validate(data: any[], schema: NormalizationSchema<string[]>) {
             if (item[key] == null) {
                 throw new Error(
                     `Item "${JSON.stringify(
-                        item
-                    )}" missing required property "${key}"`
+                        item,
+                    )}" missing required property "${key}"`,
                 );
             }
         }

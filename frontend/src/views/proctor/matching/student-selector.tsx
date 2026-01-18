@@ -46,12 +46,12 @@ export function StudentSelectorInterface() {
 
     const labeledStudents = React.useMemo(
         () => students.map(studentToLabeledStudent),
-        [students]
+        [students],
     );
 
     const selectedStudent = React.useMemo(
         () => (activeStudent ? [studentToLabeledStudent(activeStudent)] : []),
-        [activeStudent]
+        [activeStudent],
     );
 
     const typeahead = (
@@ -74,7 +74,7 @@ export function StudentSelectorInterface() {
                         proctorThunks.setActiveStudentId({
                             activeStudentId: null,
                             history,
-                        })
+                        }),
                     );
                 } else {
                     const newlySelected = selected[selected.length - 1];
@@ -82,7 +82,7 @@ export function StudentSelectorInterface() {
                         proctorThunks.setActiveStudentId({
                             activeStudentId: (newlySelected as any).id,
                             history,
-                        })
+                        }),
                     );
                 }
             }}

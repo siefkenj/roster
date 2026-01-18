@@ -12,7 +12,7 @@ export const adminStudentThunks = {
             const url_token = ensureUrlToken(getState() as RootState);
             const students = await api.students.fetch(url_token);
             return dispatch(modelDataSlice.actions.setStudents(students));
-        }
+        },
     ),
     upsert: createAsyncThunkWithErrorNotifications(
         "students/upsert",
@@ -20,7 +20,7 @@ export const adminStudentThunks = {
             const url_token = ensureUrlToken(getState() as RootState);
             const newStudent = await api.students.upsert(url_token, student);
             return dispatch(modelDataSlice.actions.upsertStudent(newStudent));
-        }
+        },
     ),
     delete: createAsyncThunkWithErrorNotifications(
         "students/delete",
@@ -28,12 +28,12 @@ export const adminStudentThunks = {
             const url_token = ensureUrlToken(getState() as RootState);
             const deletedStudent = await api.students.delete(
                 url_token,
-                student.id
+                student.id,
             );
             return dispatch(
-                modelDataSlice.actions.deleteStudent(deletedStudent)
+                modelDataSlice.actions.deleteStudent(deletedStudent),
             );
-        }
+        },
     ),
     uploadRoster: createAsyncThunkWithErrorNotifications(
         "students/uploadRoster",
@@ -41,9 +41,9 @@ export const adminStudentThunks = {
             const url_token = ensureUrlToken(getState() as RootState);
             const newStudents = await api.students.uploadRoster(
                 url_token,
-                students
+                students,
             );
             return dispatch(modelDataSlice.actions.setStudents(newStudents));
-        }
+        },
     ),
 };

@@ -12,6 +12,6 @@ export const adminUserThunks = {
             const url_token = ensureUrlToken(getState() as RootState);
             const users = await api.users.fetch(url_token);
             return dispatch(modelDataSlice.actions.setUsers(users));
-        }
+        },
     ),
 };

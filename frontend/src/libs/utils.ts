@@ -74,7 +74,7 @@ export function formatDate(dateString: string): string {
  * @param {string} dateString
  */
 export function formatDateTime<T extends string | null | undefined>(
-    dateString: T
+    dateString: T,
 ): T {
     if (!dateString || dateString == null) {
         return dateString;
@@ -150,7 +150,7 @@ export function useDebounce(value: any, delay: number) {
         // stuck in a loop. However, eslint complains about not passing in
         // `debounceValue`.
         // eslint-disable-next-line
-        [value, delay]
+        [value, delay],
     );
 
     return debouncedValue;

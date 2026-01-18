@@ -22,14 +22,14 @@ export const fetchActiveUserThunk = createAsyncThunkWithErrorNotifications(
     async (_, { dispatch }) => {
         const user = await fetchActiveUser();
         return dispatch(userSlice.actions.setActiveUser(user));
-    }
+    },
 );
 export const upsertActiveUserThunk = createAsyncThunkWithErrorNotifications(
     "user/upsert",
     async (user: Partial<User>, { dispatch }) => {
         const newUser = await upsertActiveUser(user);
         return dispatch(userSlice.actions.upsertActiveUser(newUser));
-    }
+    },
 );
 
 export const userSlice = createSlice({
@@ -45,7 +45,7 @@ export const userSlice = createSlice({
                 state.editable_active_user.name = action.payload;
             } else {
                 console.warn(
-                    "Trying to set the name of a `null` editable_active_user"
+                    "Trying to set the name of a `null` editable_active_user",
                 );
             }
         },

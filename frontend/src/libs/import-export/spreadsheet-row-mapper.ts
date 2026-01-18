@@ -31,7 +31,7 @@ function deleteReferences(value: any, keyMap: Record<any, any>) {
  */
 function findMatchingKey(
     targetKey: string,
-    keyMap: Record<string, string | number> = {}
+    keyMap: Record<string, string | number> = {},
 ) {
     if (targetKey in keyMap) {
         return keyMap[targetKey];
@@ -56,7 +56,7 @@ function findMatchingKey(
  * @class SpreadsheetRowMapper
  */
 export class SpreadsheetRowMapper<
-    T extends Pick<NormalizationSchema<string[]>, "keys" | "keyMap">
+    T extends Pick<NormalizationSchema<string[]>, "keys" | "keyMap">,
 > {
     keys: T["keys"];
     keyMap: Record<string, string | number>;
@@ -110,7 +110,7 @@ export class SpreadsheetRowMapper<
                 if (log) {
                     console.log(
                         "Could not find a key corresponding to spreadsheet column",
-                        `"${key}"`
+                        `"${key}"`,
                     );
                 }
                 this.unknownKeys[key] = true;
@@ -121,7 +121,7 @@ export class SpreadsheetRowMapper<
                     "Assuming association between spreadsheet column",
                     `"${key}"`,
                     "and the key",
-                    `"${matchedKey}"`
+                    `"${matchedKey}"`,
                 );
             }
             this.empiricalKeyMap[key] = matchedKey;

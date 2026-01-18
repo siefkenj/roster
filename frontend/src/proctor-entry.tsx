@@ -14,7 +14,7 @@ import { ActiveStudentIdWrapper } from "./views/proctor/matching/active-student-
 
 function App() {
     const notifications = useAppSelector(
-        (state) => state.notifications as any[]
+        (state) => state.notifications as any[],
     );
     return (
         <div className="proctor-view">

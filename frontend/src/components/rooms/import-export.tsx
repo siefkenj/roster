@@ -17,11 +17,11 @@ export function ImportRoomsButton() {
         data: any;
     } | null>(null);
     const [processingError, setProcessingError] = React.useState<string | null>(
-        null
+        null,
     );
     const [inProgress, setInProgress] = React.useState(false);
     const [processedData, setProcessedData] = React.useState<RawRoom[] | null>(
-        null
+        null,
     );
 
     // Recompute the diff every time the file changes

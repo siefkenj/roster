@@ -19,10 +19,10 @@ export function ActiveStudentIdWrapper({
     const activeStudentId = useAppSelector(proctorSelectors.activeStudentId);
     const history = useHistory();
     const fullMatch = useRouteMatch<{ student_id: string; cookie: string }>(
-        `${baseRoute}/cookie/:cookie/students/:student_id`
+        `${baseRoute}/cookie/:cookie/students/:student_id`,
     );
     const cookieMatch = useRouteMatch<{ cookie: string }>(
-        `${baseRoute}/cookie/:cookie`
+        `${baseRoute}/cookie/:cookie`,
     );
     const matchedStudentId = fullMatch?.params.student_id;
     const matchedCookie = cookieMatch?.params.cookie;
@@ -33,7 +33,7 @@ export function ActiveStudentIdWrapper({
         if (matchedStudentId != null) {
             if (activeStudentId !== +matchedStudentId) {
                 dispatch(
-                    proctorSlice.actions.setActiveStudentId(+matchedStudentId)
+                    proctorSlice.actions.setActiveStudentId(+matchedStudentId),
                 );
             }
         }

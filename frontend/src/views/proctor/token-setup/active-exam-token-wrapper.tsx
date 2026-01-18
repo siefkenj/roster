@@ -29,14 +29,14 @@ export function ActiveExamTokenWrapper({
     const dispatch = useAppDispatch();
     const history = useHistory();
     const match = useRouteMatch<{ cookie: string }>(
-        `${baseRoute}/cookie/:cookie`
+        `${baseRoute}/cookie/:cookie`,
     );
     const matchedCookie = match?.params.cookie;
     React.useEffect(() => {
         if (matchedCookie && examToken?.cookie !== matchedCookie) {
             (async () => {
                 await dispatch(
-                    proctorThunks.fetchExamTokenByCookie(matchedCookie)
+                    proctorThunks.fetchExamTokenByCookie(matchedCookie),
                 );
             })();
         }
@@ -61,7 +61,7 @@ export function ActiveExamTokenWrapper({
                 <Button
                     onClick={() => {
                         dispatch(
-                            proctorSlice.actions.setEditableShortToken("")
+                            proctorSlice.actions.setEditableShortToken(""),
                         );
                         dispatch(proctorSlice.actions.setExamToken(null));
                         history.push("/");

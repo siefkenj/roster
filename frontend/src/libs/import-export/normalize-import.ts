@@ -52,7 +52,7 @@ export function normalizeImport(
         primaryKey: "",
         baseName: "",
     },
-    log = true
+    log = true,
 ) {
     const { keys, baseName } = schema;
     let ret = [];
