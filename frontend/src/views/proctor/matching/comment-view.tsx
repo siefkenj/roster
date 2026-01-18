@@ -12,19 +12,22 @@ import {
 export function CommentView() {
     const dispatch = useAppDispatch();
     const activeBookletMatch = useAppSelector(
-        proctorSelectors.activeBookletMatch
+        proctorSelectors.activeBookletMatch,
     );
     const activeStudent = useAppSelector(proctorSelectors.activeStudent);
     const editableBookletMatch = useAppSelector(
-        proctorSelectors.editableBookletMatch
+        proctorSelectors.editableBookletMatch,
     );
 
     return (
         <React.Fragment>
             <InputGroup title="A comment to be associated with this student/booklet.">
-                <InputGroup.Prepend className="booklet-match-prepend-area">
-                    <InputGroup.Text id="name">Comment</InputGroup.Text>
-                </InputGroup.Prepend>
+                <InputGroup.Text
+                    id="name"
+                    className="booklet-match-prepend-area"
+                >
+                    Comment
+                </InputGroup.Text>
                 <FormControl
                     disabled={!!activeBookletMatch || !activeStudent}
                     value={editableBookletMatch.comments || ""}
@@ -33,7 +36,7 @@ export function CommentView() {
                         dispatch(
                             proctorSlice.actions.setEditableBookletMatch({
                                 comments: comment || null,
-                            })
+                            }),
                         );
                     }}
                 />

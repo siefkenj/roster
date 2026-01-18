@@ -56,7 +56,7 @@ export function MatchingInterface() {
     // We want to be able to check the status of `waiting` inside our effects,
     // but we don't want the waiting status to trigger the effects. So, we create
     // a waitingRef to wrap the waiting status.
-    const waitingRef = React.useRef<boolean>();
+    const waitingRef = React.useRef<boolean>(false);
     waitingRef.current = waiting;
 
     React.useEffect(() => {
@@ -77,7 +77,7 @@ export function MatchingInterface() {
     }, [dispatch, activeStudent]);
 
     let spinner = waiting ? (
-        <Spinner animation="border" size="sm" className="mr-2" />
+        <Spinner animation="border" size="sm" className="me-2" />
     ) : null;
 
     let alreadyMatchedWarning: React.ReactNode | null = null;
@@ -87,7 +87,7 @@ export function MatchingInterface() {
                 <h5>
                     <FaExclamationTriangle
                         style={{ verticalAlign: "sub" }}
-                        className="mr-2"
+                        className="me-2"
                     />
                     Existing Match
                 </h5>
@@ -168,7 +168,7 @@ export function MatchingInterface() {
                     {activeBookletMatch && (
                         <Button
                             disabled={!activeBookletMatch}
-                            className="flex-grow-1 ml-2"
+                            className="flex-grow-1 ms-2"
                             onClick={async () => {
                                 await dispatch(
                                     proctorThunks.setActiveStudentId({

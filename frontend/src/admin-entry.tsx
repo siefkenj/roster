@@ -1,5 +1,4 @@
 import React from "react";
-import Notifications from "react-notification-system-redux";
 import { Route, Switch } from "react-router";
 import { useAppSelector } from "./app/hooks";
 import { ActiveExamWrapper } from "./views/admin/active-exam-wrapper";
@@ -14,7 +13,7 @@ function App() {
     );
     return (
         <div className="admin-view">
-            <Notifications notifications={notifications} />
+            {/* <Notifications notifications={notifications} /> */}
             <Switch>
                 <Route path="/admin">
                     <ActiveExamWrapper baseRoute="/admin">

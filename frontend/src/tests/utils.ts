@@ -1,5 +1,4 @@
 /* eslint-env node */
-import axios from "axios";
 import { ApiResponse } from "../api/raw-types";
 // eslint-disable-next-line
 const { expect, test, it, describe, beforeAll } = global as any;
@@ -180,7 +179,13 @@ export async function apiGET(url: string, omitPrefix = false) {
     url = omitPrefix ? URL + _ensurePath(url) : API_URL + _ensurePath(url);
     let resp = null;
     try {
-        resp = await axios.get(url);
+        const r = await fetch(url);
+        if (!r.ok) {
+            const bodyText = await r.text().catch(() => "");
+            throw new Error(`Fetch failed: ${r.status} ${r.statusText} ${bodyText}`);
+        }
+        const data = await r.json();
+        resp = { data };
     } catch (e) {
         // Modify the error to display some useful information
         throw new Error(
@@ -206,7 +211,17 @@ export async function apiPOST(url: string, body = {}, omitPrefix = false) {
     url = omitPrefix ? URL + _ensurePath(url) : API_URL + _ensurePath(url);
     let resp = null;
     try {
-        resp = await axios.post(url, body);
+        const r = await fetch(url, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(body),
+        });
+        if (!r.ok) {
+            const bodyText = await r.text().catch(() => "");
+            throw new Error(`Fetch failed: ${r.status} ${r.statusText} ${bodyText}`);
+        }
+        const data = await r.json();
+        resp = { data };
     } catch (e) {
         // Modify the error to display some useful information
         throw new Error(

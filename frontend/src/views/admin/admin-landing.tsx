@@ -38,16 +38,16 @@ export function AdminLanding() {
                 <Navbar.Brand>
                     <i>Admin View</i>
                 </Navbar.Brand>
-                <Nav className="text-light ml-auto">
+                <Nav className="text-light ms-auto">
                     <ExamSelector />
                     <Button
                         variant="outline-light"
-                        className="ml-2"
+                        className="ms-2"
                         onClick={() => setShowAddExamDialog(true)}
                     >
                         <FaPlus
                             style={{ verticalAlign: "sub" }}
-                            className="mr-2"
+                            className="me-2"
                         />
                         New Exam
                     </Button>

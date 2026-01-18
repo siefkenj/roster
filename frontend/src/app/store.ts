@@ -1,5 +1,5 @@
 import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit";
-import { reducer as notifications } from "react-notification-system-redux";
+import { reducer as notifications } from "../components/react-notification-system-redux";
 import { userSlice } from "../features/active-user/user-slice";
 import { adminSlice } from "../features/admin/exams";
 import { debugSlice } from "../features/dev-mode/dev-mode-slice";

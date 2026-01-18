@@ -1,5 +1,5 @@
 import React from "react";
-import { Modal, Button, Alert, Spinner, Form } from "react-bootstrap";
+import { Modal, Button, Alert, Spinner, Form, Row } from "react-bootstrap";
 import { strip } from "../../libs/utils";
 import { Exam } from "../../api/types";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
@@ -55,12 +55,12 @@ export function ExamEditor(props: { exam: Partial<Exam>; setExam: Function }) {
 
     return (
         <Form>
-            <Form.Row>
+            <Row>
                 <DialogRow>{createFieldEditor("Exam Name", "name")}</DialogRow>
                 <DialogRow>
                     {createFieldEditor("Exam Time", "end_time", "date")}
                 </DialogRow>
-            </Form.Row>
+            </Row>
         </Form>
     );
 }
@@ -77,7 +77,7 @@ function getConflicts(exam: Partial<Exam>, exams: Exam[]) {
         ret.delayShow = "A name and end time is required";
     }
     const matchingExam = exams.find(
-        (x) => strip(x.name) === strip(exam.name || "")
+        (x) => strip(x.name) === strip(exam.name || ""),
     );
     if (matchingExam) {
         ret.immediateShow = (
@@ -115,7 +115,7 @@ export function AddExamDialog(props: {
         setInProgress(true);
         const resp = await _upsertExam(newExam);
         dispatch(
-            adminSlice.actions.setActiveExam((resp as any).payload.payload)
+            adminSlice.actions.setActiveExam((resp as any).payload.payload),
         );
         console.log("uuu", resp);
         setInProgress(false);
@@ -125,7 +125,7 @@ export function AddExamDialog(props: {
     // When a confirm operation is in progress, a spinner is displayed; otherwise
     // it's hidden
     const spinner = inProgress ? (
-        <Spinner animation="border" size="sm" className="mr-1" />
+        <Spinner animation="border" size="sm" className="me-1" />
     ) : null;
 
     const conflicts = getConflicts(newExam, exams);

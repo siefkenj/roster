@@ -80,7 +80,7 @@ export function StudentSelectorInterface() {
                     const newlySelected = selected[selected.length - 1];
                     dispatch(
                         proctorThunks.setActiveStudentId({
-                            activeStudentId: newlySelected.id,
+                            activeStudentId: (newlySelected as any).id,
                             history,
                         })
                     );
@@ -93,7 +93,7 @@ export function StudentSelectorInterface() {
         <React.Fragment>
             {fetchingStudents ? (
                 <div className="typeahead-container">
-                    <div className="mr-2">
+                    <div className="me-2">
                         <Spinner size="sm" animation="border" />
                     </div>
                     <div className="flex-grow-1">{typeahead}</div>

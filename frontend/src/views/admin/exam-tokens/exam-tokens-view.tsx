@@ -22,7 +22,7 @@ export function ExamTokensView() {
                             dispatch(adminThunks.users.fetch());
                         }}
                     >
-                        <FaSync className="mr-2" />
+                        <FaSync className="me-2" />
                         Re-fetch Tokens
                     </Button>
                     <Button
@@ -31,11 +31,12 @@ export function ExamTokensView() {
                         }}
                         size="sm"
                     >
-                        <FaPlus className="mr-2" />
+                        <FaPlus className="me-2" />
                         New Token
                     </Button>
-                    <ButtonGroup toggle size="sm">
+                    <ButtonGroup size="sm">
                         <ToggleButton
+                            id="expire-token-toggle"
                             value="1"
                             type="checkbox"
                             checked={inDeleteMode}
@@ -43,7 +44,7 @@ export function ExamTokensView() {
                                 setInDeleteMode(e.currentTarget.checked)
                             }
                         >
-                            <FaHourglassEnd className="mr-2" />
+                            <FaHourglassEnd className="me-2" />
                             Expire Token
                         </ToggleButton>
                     </ButtonGroup>
@@ -53,7 +54,7 @@ export function ExamTokensView() {
                             dispatch(exportThunks.downloadExamTokens());
                         }}
                     >
-                        <FaDownload className="mr-2" />
+                        <FaDownload className="me-2" />
                         Export Tokens
                     </Button>
                 </div>

@@ -3,7 +3,6 @@
  */
 /* eslint-env node */
 import { describe, it, expect, randomStr } from "./utils";
-import fetch from "node-fetch";
 import { fetchActiveUser } from "../features/active-user/actions";
 import { globalFetchConfig } from "../api/utils";
 import { debugApi } from "../features/dev-mode/api-actions";

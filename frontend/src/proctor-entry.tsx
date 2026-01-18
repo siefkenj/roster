@@ -1,5 +1,5 @@
 import React from "react";
-import Notifications from "react-notification-system-redux";
+// import Notifications from "react-notification-system-redux";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./proctor-entry.css";
@@ -18,7 +18,7 @@ function App() {
     );
     return (
         <div className="proctor-view">
-            <Notifications notifications={notifications} />
+            {/* <Notifications notifications={notifications} /> */}
             <Switch>
                 <Route exact path="/">
                     <Redirect to="/proctor/token-setup" />

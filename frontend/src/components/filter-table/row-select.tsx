@@ -53,7 +53,7 @@ function insertOrDelete<T>(arr: T[], elm: T, insert: boolean): T[] {
  */
 function computeSelectionState(
     selected: any[],
-    visible: any[]
+    visible: any[],
 ): {
     isAllRowsSelected: boolean;
     isHiddenRowsSelected: boolean;
@@ -81,7 +81,7 @@ function computeBulkSelection(
     selection: number[],
     visible: number[],
     lastRowSelected: number | null,
-    newRowSelected: number
+    newRowSelected: number,
 ): number[] {
     if (
         lastRowSelected == null ||
@@ -124,7 +124,7 @@ function IndeterminateCheckbox({
     return (
         <input
             type="checkbox"
-            ref={(el) => el && (el.indeterminate = indeterminate)}
+            ref={(el) => el && ((el.indeterminate = indeterminate) as any)}
             {...rest}
         />
     );
@@ -204,7 +204,7 @@ function CheckboxCell({
                     let newSelected = insertOrDelete(
                         [...selected],
                         id,
-                        newCheckedState
+                        newCheckedState,
                     );
 
                     if (newCheckedState) {
@@ -215,7 +215,7 @@ function CheckboxCell({
                                 newSelected,
                                 visible,
                                 lastRowSelected,
-                                id
+                                id,
                             );
                         }
                         setLastRowSelected(id);
@@ -284,7 +284,7 @@ export function generateSelectionHook({
                 setSelected: setSelected || NOOP_FUNCTION,
                 lastRowSelected,
                 setLastRowSelected,
-            })
+            }),
         );
     };
 }
@@ -336,7 +336,7 @@ function useInstanceFactory({
                     instance.sortedRows
                         .map((row: any) => row.original?.id)
                         .filter((x: any) => x != null),
-                [instance.sortedRows]
+                [instance.sortedRows],
             );
 
             const {
@@ -356,6 +356,6 @@ function useInstanceFactory({
                 setLastRowSelected,
             });
         },
-        [selected, setSelected, lastRowSelected, setLastRowSelected]
+        [selected, setSelected, lastRowSelected, setLastRowSelected],
     );
 }

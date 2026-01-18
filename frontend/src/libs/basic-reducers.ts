@@ -1,5 +1,4 @@
-import { PayloadAction } from "@reduxjs/toolkit";
-import { WritableDraft } from "immer/dist/internal";
+import { PayloadAction, WritableDraft } from "@reduxjs/toolkit";
 
 type HasId = { id: number };
 
@@ -32,7 +31,7 @@ type AttrNameSelector<K> = SnakeToCamelCase<`${string & K}`>;
 
 type Reducer<State, Payload> = (
     state: WritableDraft<State>,
-    payload: PayloadAction<Payload>
+    payload: PayloadAction<Payload>,
 ) => void;
 
 /**
@@ -41,7 +40,7 @@ type Reducer<State, Payload> = (
  */
 type HasBasicSelectors<State, RootState> = {
     [Key in keyof State as AttrNameSelector<Key>]: (
-        state: RootState
+        state: RootState,
     ) => State[Key];
 };
 
@@ -82,7 +81,7 @@ type HasBasicReducers<State, PluralMap> = HasBasicSetterReducer<State> &
  */
 export function createBasicReducers<
     State extends Record<keyof PluralMap, HasId[]>,
-    PluralMap
+    PluralMap,
 >(initialState: State, pluralMap: PluralMap, sliceName: string) {
     function setFactory<K extends keyof State>(attr: K) {
         return (state: State, action: PayloadAction<State[K]>) => {
@@ -105,7 +104,7 @@ export function createBasicReducers<
         return (state: State, action: PayloadAction<State[K][number]>) => {
             const newObj = action.payload;
             const matchingIndex = state[attr].findIndex(
-                (s) => s.id === newObj.id
+                (s) => s.id === newObj.id,
             );
             if (matchingIndex !== -1) {
                 state[attr].splice(matchingIndex, 1);
@@ -115,14 +114,16 @@ export function createBasicReducers<
 
     // Actually create all the reducers.
     const reducers: Record<string, Function> = {};
-    for (const attr of Object.keys(pluralMap) as (keyof PluralMap)[]) {
+    for (const attr of Object.keys(
+        pluralMap as object,
+    ) as (keyof PluralMap)[]) {
         const camelUpsert = toCamel(`upsert_${pluralMap[attr]}`);
         const camelDelete = toCamel(`delete_${pluralMap[attr]}`);
         reducers[camelUpsert] = upsertFactory(attr);
         reducers[camelDelete] = deleteFactory(attr);
     }
     for (const attr of Object.keys(initialState) as (keyof State)[]) {
-        const camelSet = toCamel(`set_${attr}`);
+        const camelSet = toCamel(`set_${attr as string}`);
         reducers[camelSet] = setFactory(attr);
     }
 

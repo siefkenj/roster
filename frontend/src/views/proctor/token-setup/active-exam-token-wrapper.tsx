@@ -53,7 +53,7 @@ export function ActiveExamTokenWrapper({
                 <Alert variant="error" className="mb-2">
                     <FaExclamationTriangle
                         style={{ verticalAlign: "sub" }}
-                        className="mr-2"
+                        className="me-2"
                     />
                     You must enter a valid exam token to continue.
                 </Alert>

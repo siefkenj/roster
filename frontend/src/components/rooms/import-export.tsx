@@ -58,7 +58,7 @@ export function ImportRoomsButton() {
             <p>No data loaded...</p>
             <Alert variant="info">
                 <p>
-                    <FaLightbulb className="mr-2" />
+                    <FaLightbulb className="me-2" />
                     Rooms should be in a single column with a header of{" "}
                     <b>Name</b>.
                 </p>

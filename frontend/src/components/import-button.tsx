@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import XLSX from "xlsx";
+import * as XLSX from "xlsx";
 import {
     Button,
     Modal,
@@ -63,10 +63,8 @@ export function ImportDialog({
     label?: string;
 }) {
     const [fileInputLabel, setFileInputLabel] = React.useState(label);
-    const [
-        fileArrayBuffer,
-        setFileArrayBuffer,
-    ] = React.useState<ArrayBuffer | null>(null);
+    const [fileArrayBuffer, setFileArrayBuffer] =
+        React.useState<ArrayBuffer | null>(null);
     const [fileContents, setFileContents] = React.useState<object | null>(null);
     const [inProgress, _setInProgress] = React.useState(false);
 
@@ -126,7 +124,7 @@ export function ImportDialog({
         console.warn(
             "Could not determine file type for",
             fileInputLabel,
-            fileArrayBuffer
+            fileArrayBuffer,
         );
     }, [fileArrayBuffer, fileInputLabel]);
 
@@ -173,7 +171,7 @@ export function ImportDialog({
     // When a confirm operation is in progress, a spinner is displayed; otherwise
     // it's hidden
     const spinner = inProgress ? (
-        <Spinner animation="border" size="sm" className="mr-1" />
+        <Spinner animation="border" size="sm" className="me-1" />
     ) : null;
 
     return (
@@ -192,11 +190,13 @@ export function ImportDialog({
                     <Row className="mb-3">
                         <Col>
                             <Form>
-                                <Form.File
-                                    label={fileInputLabel}
-                                    onChange={_onFileChange}
-                                    custom
-                                ></Form.File>
+                                <Form.Group>
+                                    <Form.Label>{fileInputLabel}</Form.Label>
+                                    <Form.Control
+                                        type="file"
+                                        onChange={_onFileChange}
+                                    />
+                                </Form.Group>
                             </Form>
                         </Col>
                     </Row>
@@ -229,13 +229,12 @@ export function ImportButton({
     onConfirm,
     setInProgress,
     children,
-}: {
+}: React.PropsWithChildren<{
     onFileChange: Callback;
     dialogContent: React.ReactElement;
     onConfirm: Callback;
     setInProgress: Callback;
-    children: React.ReactChildren | React.ReactChild;
-}) {
+}>) {
     const [dialogOpen, setDialogOpen] = useState(false);
 
     /**
@@ -258,7 +257,7 @@ export function ImportButton({
     return (
         <React.Fragment>
             <Button size="sm" onClick={() => setDialogOpen(true)}>
-                <FaUpload className="mr-2" />
+                <FaUpload className="me-2" />
                 {children}
             </Button>
             <ImportDialog

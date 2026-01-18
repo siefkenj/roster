@@ -26,18 +26,19 @@ export function RosterView() {
                             dispatch(adminStudentThunks.fetch());
                         }}
                     >
-                        <FaSync className="mr-2" />
+                        <FaSync className="me-2" />
                         Re-fetch Students
                     </Button>
                     <Button
                         onClick={() => setShowAddStudentDialog(true)}
                         size="sm"
                     >
-                        <FaPlus className="mr-2" />
+                        <FaPlus className="me-2" />
                         Add Student
                     </Button>
-                    <ButtonGroup toggle size="sm">
+                    <ButtonGroup size="sm">
                         <ToggleButton
+                            id="delete-mode-toggle"
                             value="1"
                             type="checkbox"
                             checked={inDeleteMode}
@@ -45,7 +46,7 @@ export function RosterView() {
                                 setInDeleteMode(e.currentTarget.checked)
                             }
                         >
-                            <FaTrash className="mr-2" />
+                            <FaTrash className="me-2" />
                             Delete Students
                         </ToggleButton>
                     </ButtonGroup>
@@ -56,7 +57,7 @@ export function RosterView() {
                             dispatch(exportThunks.downloadStudents());
                         }}
                     >
-                        <FaDownload className="mr-2" />
+                        <FaDownload className="me-2" />
                         Export Students
                     </Button>
                 </div>

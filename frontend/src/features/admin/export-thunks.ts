@@ -2,7 +2,7 @@ import { createAsyncThunkWithErrorNotifications } from "../../app/hooks";
 import { RootState } from "../../app/store";
 import { compareString } from "../../libs/utils";
 import { modelDataSelectors } from "../model-data/model-data";
-import XLSX from "xlsx";
+import * as XLSX from "xlsx";
 import FileSaver from "file-saver";
 
 export function dataToFile(

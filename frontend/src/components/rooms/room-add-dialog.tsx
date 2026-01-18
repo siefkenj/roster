@@ -53,9 +53,7 @@ export function RoomEditor(props: { room: Partial<Room>; setRoom: Function }) {
 
     return (
         <Form>
-            <Form.Row>
-                <DialogRow>{createFieldEditor("Room Name", "name")}</DialogRow>
-            </Form.Row>
+            <DialogRow>{createFieldEditor("Room Name", "name")}</DialogRow>
         </Form>
     );
 }
@@ -72,7 +70,7 @@ function getConflicts(room: Partial<Room>, rooms: Room[]) {
         ret.delayShow = "A name is required";
     }
     const matchingRoom = rooms.find(
-        (x) => strip(x.name) === strip(room.name || "")
+        (x) => strip(x.name) === strip(room.name || ""),
     );
     if (matchingRoom) {
         ret.immediateShow = (
@@ -116,7 +114,7 @@ export function AddRoomDialog(props: {
     // When a confirm operation is in progress, a spinner is displayed; otherwise
     // it's hidden
     const spinner = inProgress ? (
-        <Spinner animation="border" size="sm" className="mr-1" />
+        <Spinner animation="border" size="sm" className="me-1" />
     ) : null;
 
     const conflicts = getConflicts(newRoom, rooms);

@@ -38,7 +38,7 @@ export function ExamSelector() {
 
     return (
         <div className="d-flex flex-direction-column align-items-center">
-            <div className="mr-2">Selected Exam:</div>
+            <div className="me-2">Selected Exam:</div>
             <Dropdown
                 onSelect={(i) => {
                     if (i == null) {

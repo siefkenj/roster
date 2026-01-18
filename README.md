@@ -8,9 +8,9 @@ Keep track of students during a midterm, and log which test booklet they're writ
 <summary>If you would like to contribute to the project, we ask that you follow the following conventions.</summary>
 <p>
 
-## Travis CI
+## Github CI
 
-We use Travis CI for our continuous integration pipeline. As of right now, we have 3 tests that should pass:
+We use Github Actions for our continuous integration pipeline. As of right now, we have 3 tests that should pass:
 
 ```
 1. Yarn linting tests for our front end
@@ -18,7 +18,7 @@ We use Travis CI for our continuous integration pipeline. As of right now, we ha
 3. Frontend unit tests
 ```
 
-Sometimes Travis CI may fail due to high loads of tasks to finish. In this case, wait until all previous tasks are finished and then push to trigger travis CI again.
+Sometimes Github CI may fail due to high loads of tasks to finish. In this case, wait until all previous tasks are finished and then push to trigger Github CI again.
 
 ### Issues
 

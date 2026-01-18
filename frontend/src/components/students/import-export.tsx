@@ -61,7 +61,7 @@ export function ImportStudentsButton() {
             <p>No data loaded...</p>
             <Alert variant="info">
                 <p>
-                    <FaLightbulb className="mr-2" />
+                    <FaLightbulb className="me-2" />
                     Student information should be provided in a spreadsheet with
                     the following headers:
                     <b>First Name</b>, <b>Last Name</b>, <b>UTORid</b>,{" "}

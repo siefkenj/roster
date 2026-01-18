@@ -12,19 +12,22 @@ import {
 export function BookletView() {
     const dispatch = useAppDispatch();
     const activeBookletMatch = useAppSelector(
-        proctorSelectors.activeBookletMatch
+        proctorSelectors.activeBookletMatch,
     );
     const activeStudent = useAppSelector(proctorSelectors.activeStudent);
     const editableBookletMatch = useAppSelector(
-        proctorSelectors.editableBookletMatch
+        proctorSelectors.editableBookletMatch,
     );
 
     return (
         <React.Fragment>
             <InputGroup title="The booklet number to be associated with the currently selected student.">
-                <InputGroup.Prepend className="booklet-match-prepend-area">
-                    <InputGroup.Text id="name">Booklet</InputGroup.Text>
-                </InputGroup.Prepend>
+                <InputGroup.Text
+                    id="name"
+                    className="booklet-match-prepend-area"
+                >
+                    Booklet
+                </InputGroup.Text>
                 <FormControl
                     disabled={!!activeBookletMatch || !activeStudent}
                     value={editableBookletMatch.booklet}
@@ -34,7 +37,7 @@ export function BookletView() {
                         dispatch(
                             proctorSlice.actions.setEditableBookletMatch({
                                 booklet,
-                            })
+                            }),
                         );
                     }}
                 />

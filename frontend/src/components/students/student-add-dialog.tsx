@@ -1,5 +1,5 @@
 import React from "react";
-import { Modal, Button, Alert, Spinner, Form } from "react-bootstrap";
+import { Modal, Button, Alert, Spinner, Form, Row } from "react-bootstrap";
 import { strip } from "../../libs/utils";
 import { Student } from "../../api/types";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
@@ -65,7 +65,7 @@ export function StudentEditor(props: {
 
     return (
         <Form>
-            <Form.Row>
+            <Row>
                 <DialogRow>
                     {createFieldEditor("First Name", "first_name")}
                     {createFieldEditor("Last Name", "last_name")}
@@ -78,7 +78,7 @@ export function StudentEditor(props: {
                     {createFieldEditor("Student Number", "student_number")}
                     {createFieldEditor("Extra Data", "matching_data")}
                 </DialogRow>
-            </Form.Row>
+            </Row>
         </Form>
     );
 }
@@ -147,7 +147,7 @@ export function AddStudentDialog(props: {
     // When a confirm operation is in progress, a spinner is displayed; otherwise
     // it's hidden
     const spinner = inProgress ? (
-        <Spinner animation="border" size="sm" className="mr-1" />
+        <Spinner animation="border" size="sm" className="me-1" />
     ) : null;
 
     const conflicts = getConflicts(newStudent, students);
