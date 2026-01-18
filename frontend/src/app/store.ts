@@ -13,7 +13,7 @@ export const store = configureStore({
         admin: adminSlice.reducer,
         model_data: modelDataSlice.reducer,
         debug: debugSlice.reducer,
-        notifications: notifications as any,
+        notifications: notifications,
     },
 });
 

@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSelector, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import {
     RawBookletMatch,
     RawExam,
@@ -10,6 +10,7 @@ import {
 import { Exam } from "../../api/types";
 import { RootState } from "../../app/store";
 import { createBasicReducers } from "../../libs/basic-reducers";
+import { useSelector } from "react-redux";
 
 export interface ModelDataState {
     users: RawUser[];
@@ -84,19 +85,14 @@ export const modelDataSlice = createSlice({
     },
 });
 
-// Selectors
-export const modelDataSelectors = {
-    ...basicReducers.selectors,
-    /**
-     * Compute a "flat" representation of the booklet-matches data that can
-     * be displayed in a table or downloaded
-     */
-    flatBookletMatches(state: RootState) {
-        const bookletMatches = modelDataSelectors.bookletMatches(state);
-        const rooms = modelDataSelectors.rooms(state);
-        const students = modelDataSelectors.students(state);
-        const users = modelDataSelectors.users(state);
-
+const flatBookletMatchesSelector = createSelector(
+    [
+        basicReducers.selectors.bookletMatches,
+        basicReducers.selectors.rooms,
+        basicReducers.selectors.students,
+        basicReducers.selectors.users,
+    ],
+    (bookletMatches, rooms, students, users) => {
         const studentsHash = new Map(
             students.map((student) => [student.id, student]),
         );
@@ -120,15 +116,15 @@ export const modelDataSelectors = {
             };
         });
     },
-    /**
-     * Compute a "flat" representation of the exam tokens data that can
-     * be displayed in a table or downloaded
-     */
-    flatExamTokens(state: RootState) {
-        const examTokens = modelDataSelectors.examTokens(state);
-        const rooms = modelDataSelectors.rooms(state);
-        const users = modelDataSelectors.users(state);
+);
 
+const flatExamTokensSelector = createSelector(
+    [
+        basicReducers.selectors.examTokens,
+        basicReducers.selectors.rooms,
+        basicReducers.selectors.users,
+    ],
+    (examTokens, rooms, users) => {
         const roomsHash = new Map(rooms.map((room) => [room.id, room]));
         const usersHash = new Map(users.map((user) => [user.id, user]));
         return examTokens.map((examToken) => {
@@ -154,4 +150,19 @@ export const modelDataSelectors = {
             };
         });
     },
+);
+
+// Selectors
+export const modelDataSelectors = {
+    ...basicReducers.selectors,
+    /**
+     * Compute a "flat" representation of the booklet-matches data that can
+     * be displayed in a table or downloaded
+     */
+    flatBookletMatches: flatBookletMatchesSelector,
+    /**
+     * Compute a "flat" representation of the exam tokens data that can
+     * be displayed in a table or downloaded
+     */
+    flatExamTokens: flatExamTokensSelector,
 };

@@ -1,4 +1,4 @@
-import { Action } from "redux";
+import { Action, Reducer, UnknownAction } from "redux";
 import {
     RNS_SHOW_NOTIFICATION,
     RNS_HIDE_NOTIFICATION,
@@ -11,10 +11,11 @@ type NotificationsReducer<A extends Action> = (
     action: A,
 ) => NotificationsState;
 
-export const Notifications: NotificationsReducer<any> = function Notifications(
-    state = [],
-    action = {},
-) {
+export const Notifications: Reducer<
+    NotificationsState,
+    UnknownAction,
+    NotificationsState
+> = function Notifications(state = [], action: any = {}) {
     switch (action.type) {
         case RNS_SHOW_NOTIFICATION:
             const { type, ...rest } = action;

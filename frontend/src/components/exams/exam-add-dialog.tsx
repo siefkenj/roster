@@ -101,7 +101,8 @@ export function AddExamDialog(props: {
     const dispatch = useAppDispatch();
 
     function _upsertExam(exam: Partial<Exam>) {
-        return dispatch(adminThunks.exams.upsert(exam));
+        const ret = dispatch(adminThunks.exams.upsert(exam));
+        return ret as Promise<{ payload: Exam }>;
     }
 
     React.useEffect(() => {
@@ -114,10 +115,8 @@ export function AddExamDialog(props: {
     async function createExam() {
         setInProgress(true);
         const resp = await _upsertExam(newExam);
-        dispatch(
-            adminSlice.actions.setActiveExam((resp as any).payload.payload),
-        );
-        console.log("uuu", resp);
+        console.log("Upserted exam. Response from server:", resp);
+        dispatch(adminSlice.actions.setActiveExam(resp.payload));
         setInProgress(false);
         onHide();
     }

@@ -41,6 +41,7 @@ export const adminExamThunks = {
         async (exam: Partial<Exam>, { dispatch }) => {
             const newExam = await api.exams.upsert(exam);
             await dispatch(adminExamThunks.upsertWithActiveExamCheck(newExam));
+            return newExam;
         },
     ),
     delete: createAsyncThunkWithErrorNotifications(
@@ -60,10 +61,11 @@ export const adminExamThunks = {
         "exam/upsertWithActiveExamCheck",
         async (exam: Exam, { dispatch, getState }) => {
             const state = getState() as RootState;
-            dispatch(modelDataSlice.actions.upsertExam(exam));
+            const ret = dispatch(modelDataSlice.actions.upsertExam(exam));
             if (state.admin.active_exam?.url_token === exam.url_token) {
                 dispatch(adminSlice.actions.setActiveExam(exam));
             }
+            return ret;
         },
     ),
     /**
