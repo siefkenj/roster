@@ -11,6 +11,7 @@ export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
  * Creates an async thunk that will automatically dispatch any errors via
  * `"react-notification-system-redux"`.
  */
+// @ts-ignore
 export const createAsyncThunkWithErrorNotifications: typeof createAsyncThunk = (
     typePrefix,
     payloadCreator,
