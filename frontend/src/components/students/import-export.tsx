@@ -17,7 +17,7 @@ export function ImportStudentsButton() {
         data: any;
     } | null>(null);
     const [processingError, setProcessingError] = React.useState<string | null>(
-        null
+        null,
     );
     const [inProgress, setInProgress] = React.useState(false);
     const [processedData, setProcessedData] = React.useState<
@@ -36,7 +36,7 @@ export function ImportStudentsButton() {
             // normalize the data coming from the file
             const data = normalizeImport(
                 fileContent,
-                studentSchema
+                studentSchema,
             ) as RawStudent[];
 
             setProcessedData(data);
@@ -61,7 +61,7 @@ export function ImportStudentsButton() {
             <p>No data loaded...</p>
             <Alert variant="info">
                 <p>
-                    <FaLightbulb className="mr-2" />
+                    <FaLightbulb className="me-2" />
                     Student information should be provided in a spreadsheet with
                     the following headers:
                     <b>First Name</b>, <b>Last Name</b>, <b>UTORid</b>,{" "}
@@ -112,7 +112,7 @@ export function ImportStudentsButton() {
             dialogContent = <Alert variant="warning">No rows found.</Alert>;
         } else {
             const headers = Object.keys(
-                processedData[0]
+                processedData[0],
             ) as (keyof RawStudent)[];
             dialogContent = (
                 <React.Fragment>

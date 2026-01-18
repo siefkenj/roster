@@ -12,8 +12,8 @@ export const adminBookletMatchThunks = {
             const url_token = ensureUrlToken(getState() as RootState);
             const bookletMatches = await api.bookletMatches.fetch(url_token);
             return dispatch(
-                modelDataSlice.actions.setBookletMatches(bookletMatches)
+                modelDataSlice.actions.setBookletMatches(bookletMatches),
             );
-        }
+        },
     ),
 };

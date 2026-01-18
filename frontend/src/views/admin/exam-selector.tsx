@@ -15,7 +15,7 @@ export function ExamSelector() {
     const [sortedExams, displayExams] = React.useMemo(() => {
         const examsCopy = [...exams];
         examsCopy.sort((a, b) =>
-            (a.end_time || "").localeCompare(b.end_time || "")
+            (a.end_time || "").localeCompare(b.end_time || ""),
         );
         return [
             examsCopy,
@@ -38,7 +38,7 @@ export function ExamSelector() {
 
     return (
         <div className="d-flex flex-direction-column align-items-center">
-            <div className="mr-2">Selected Exam:</div>
+            <div className="me-2">Selected Exam:</div>
             <Dropdown
                 onSelect={(i) => {
                     if (i == null) {

@@ -46,12 +46,12 @@ export function StudentSelectorInterface() {
 
     const labeledStudents = React.useMemo(
         () => students.map(studentToLabeledStudent),
-        [students]
+        [students],
     );
 
     const selectedStudent = React.useMemo(
         () => (activeStudent ? [studentToLabeledStudent(activeStudent)] : []),
-        [activeStudent]
+        [activeStudent],
     );
 
     const typeahead = (
@@ -74,15 +74,15 @@ export function StudentSelectorInterface() {
                         proctorThunks.setActiveStudentId({
                             activeStudentId: null,
                             history,
-                        })
+                        }),
                     );
                 } else {
                     const newlySelected = selected[selected.length - 1];
                     dispatch(
                         proctorThunks.setActiveStudentId({
-                            activeStudentId: newlySelected.id,
+                            activeStudentId: (newlySelected as any).id,
                             history,
-                        })
+                        }),
                     );
                 }
             }}
@@ -93,7 +93,7 @@ export function StudentSelectorInterface() {
         <React.Fragment>
             {fetchingStudents ? (
                 <div className="typeahead-container">
-                    <div className="mr-2">
+                    <div className="me-2">
                         <Spinner size="sm" animation="border" />
                     </div>
                     <div className="flex-grow-1">{typeahead}</div>

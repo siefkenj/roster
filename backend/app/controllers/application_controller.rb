@@ -6,6 +6,6 @@ class ApplicationController < ActionController::API
     include TransactionHandler
 
     # Don't wrap parameters
-    # https://guides.rubyonrails.org/action_controller_overview.html#json-xml-parameters
+    # https://guides.rubyonrails.org/action_controller_overview.html#json-xms-parameters
     wrap_parameters false
 end

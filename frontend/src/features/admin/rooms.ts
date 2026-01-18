@@ -13,7 +13,7 @@ export const adminRoomsThunks = {
             const url_token = ensureUrlToken(getState() as RootState);
             const rooms = await api.rooms.fetch(url_token);
             return dispatch(modelDataSlice.actions.setRooms(rooms));
-        }
+        },
     ),
     upsert: createAsyncThunkWithErrorNotifications(
         "rooms/upsert",
@@ -21,7 +21,7 @@ export const adminRoomsThunks = {
             const url_token = ensureUrlToken(getState() as RootState);
             const newRoom = await api.rooms.upsert(url_token, room);
             return dispatch(modelDataSlice.actions.upsertRoom(newRoom));
-        }
+        },
     ),
     delete: createAsyncThunkWithErrorNotifications(
         "rooms/delete",
@@ -29,7 +29,7 @@ export const adminRoomsThunks = {
             const url_token = ensureUrlToken(getState() as RootState);
             const deletedRoom = await api.rooms.delete(url_token, room.id);
             return dispatch(modelDataSlice.actions.deleteRoom(deletedRoom));
-        }
+        },
     ),
     uploadRoster: createAsyncThunkWithErrorNotifications(
         "rooms/uploadRoster",
@@ -37,6 +37,6 @@ export const adminRoomsThunks = {
             const url_token = ensureUrlToken(getState() as RootState);
             const newRooms = await api.rooms.uploadRoster(url_token, rooms);
             return dispatch(modelDataSlice.actions.setRooms(newRooms));
-        }
+        },
     ),
 };

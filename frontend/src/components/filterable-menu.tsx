@@ -10,13 +10,12 @@ import { Dropdown, FormControl } from "react-bootstrap";
  */
 const FilterableMenuContents = React.forwardRef(
     (
-        props: {
+        props: React.PropsWithChildren<{
             style?: React.CSSProperties;
             className: string;
             clearFilter: boolean;
-            children: React.ReactChildren;
-        },
-        ref: React.ForwardedRef<HTMLDivElement>
+        }>,
+        ref: React.ForwardedRef<HTMLDivElement>,
     ) => {
         const { children, style, className, clearFilter } = props;
         const [filter, setFilter] = React.useState("");
@@ -36,7 +35,7 @@ const FilterableMenuContents = React.forwardRef(
                 !filter.trim() ||
                 (child as any).props.children
                     .toLowerCase()
-                    .includes(filter.trim())
+                    .includes(filter.trim()),
         );
         // The sessions list could be empty for two reasons: there are
         // no sessions, or we've filtered them all away. Display an
@@ -69,7 +68,7 @@ const FilterableMenuContents = React.forwardRef(
                 </ul>
             </div>
         );
-    }
+    },
 );
 
 /**

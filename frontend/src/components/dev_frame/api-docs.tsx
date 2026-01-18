@@ -17,7 +17,7 @@ interface ApiRouteType {
  */
 function split_path_by_parts(
     path: string,
-    parts: string[]
+    parts: string[],
 ): { type: "raw" | "var"; value: string }[] {
     if (parts.length === 0) {
         return [{ type: "raw", value: path }];

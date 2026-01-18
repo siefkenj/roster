@@ -13,7 +13,7 @@ export const adminExamTokensThunks = {
             const url_token = ensureUrlToken(getState() as RootState);
             const exam_tokens = await api.examTokens.fetch(url_token);
             return dispatch(modelDataSlice.actions.setExamTokens(exam_tokens));
-        }
+        },
     ),
     upsert: createAsyncThunkWithErrorNotifications(
         "exam_tokens/upsert",
@@ -21,12 +21,12 @@ export const adminExamTokensThunks = {
             const url_token = ensureUrlToken(getState() as RootState);
             const newExamToken = await api.examTokens.upsert(
                 url_token,
-                exam_token
+                exam_token,
             );
             return dispatch(
-                modelDataSlice.actions.upsertExamToken(newExamToken)
+                modelDataSlice.actions.upsertExamToken(newExamToken),
             );
-        }
+        },
     ),
     invalidate: createAsyncThunkWithErrorNotifications(
         "exam_tokens/invalidate",
@@ -34,12 +34,12 @@ export const adminExamTokensThunks = {
             const url_token = ensureUrlToken(getState() as RootState);
             const newExamToken = await api.examTokens.invalidate(
                 url_token,
-                exam_token.id
+                exam_token.id,
             );
             return dispatch(
-                modelDataSlice.actions.upsertExamToken(newExamToken)
+                modelDataSlice.actions.upsertExamToken(newExamToken),
             );
-        }
+        },
     ),
     delete: createAsyncThunkWithErrorNotifications(
         "exam_tokens/delete",
@@ -47,11 +47,11 @@ export const adminExamTokensThunks = {
             const url_token = ensureUrlToken(getState() as RootState);
             const deletedExamToken = await api.examTokens.delete(
                 url_token,
-                exam_token.id
+                exam_token.id,
             );
             return dispatch(
-                modelDataSlice.actions.deleteExamToken(deletedExamToken)
+                modelDataSlice.actions.deleteExamToken(deletedExamToken),
             );
-        }
+        },
     ),
 };

@@ -24,18 +24,19 @@ export function RoomsView() {
                             dispatch(adminThunks.rooms.fetch());
                         }}
                     >
-                        <FaSync className="mr-2" />
+                        <FaSync className="me-2" />
                         Re-fetch Rooms
                     </Button>
                     <Button
                         onClick={() => setShowAddRoomDialog(true)}
                         size="sm"
                     >
-                        <FaPlus className="mr-2" />
+                        <FaPlus className="me-2" />
                         Add Room
                     </Button>
-                    <ButtonGroup toggle size="sm">
+                    <ButtonGroup size="sm">
                         <ToggleButton
+                            id="delete-rooms-mode-toggle"
                             value="1"
                             type="checkbox"
                             checked={inDeleteRoomsMode}
@@ -43,7 +44,7 @@ export function RoomsView() {
                                 setInDeleteRoomsMode(e.currentTarget.checked)
                             }
                         >
-                            <FaTrash className="mr-2" />
+                            <FaTrash className="me-2" />
                             Delete Rooms
                         </ToggleButton>
                     </ButtonGroup>
@@ -54,7 +55,7 @@ export function RoomsView() {
                             dispatch(exportThunks.downloadRooms());
                         }}
                     >
-                        <FaDownload className="mr-2" />
+                        <FaDownload className="me-2" />
                         Export Rooms
                     </Button>
                 </div>

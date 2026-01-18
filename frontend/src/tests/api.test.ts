@@ -3,7 +3,6 @@
  */
 /* eslint-env node */
 import { describe, it, expect, randomStr } from "./utils";
-import fetch from "node-fetch";
 import { fetchActiveUser } from "../features/active-user/actions";
 import { globalFetchConfig } from "../api/utils";
 import { debugApi } from "../features/dev-mode/api-actions";
@@ -78,7 +77,7 @@ describe("API Tests", () => {
             // Rails formats dates differently than javascript, so we should only compare the day
             // (not time, which has timezone information)
             expect(new Date(end_time || "")).toEqual(
-                new Date(admin1Exam.end_time || "")
+                new Date(admin1Exam.end_time || ""),
             );
             Object.assign(admin1Exam, resp);
         });
@@ -118,7 +117,7 @@ describe("API Tests", () => {
             ];
             const resp = await api.rooms.uploadRoster(
                 admin1Exam.url_token,
-                rooms
+                rooms,
             );
             expect(resp).toMatchObject(rooms);
 
@@ -133,7 +132,7 @@ describe("API Tests", () => {
         it("Add student", async () => {
             const resp = await api.students.upsert(
                 admin1Exam.url_token,
-                admin1Student
+                admin1Student,
             );
             expect(resp).toMatchObject(admin1Student);
             Object.assign(admin1Student, resp);
@@ -146,7 +145,7 @@ describe("API Tests", () => {
             admin1Student.last_name = "Fillmore";
             const resp = await api.students.upsert(
                 admin1Exam.url_token,
-                admin1Student
+                admin1Student,
             );
             expect(resp).toMatchObject(admin1Student);
             Object.assign(admin1Student, resp);
@@ -154,7 +153,7 @@ describe("API Tests", () => {
         it("Delete student", async () => {
             const resp = await api.students.delete(
                 admin1Exam.url_token,
-                admin1Student.id
+                admin1Student.id,
             );
             expect(resp).toMatchObject(admin1Student);
             const resp2 = await api.students.fetch(admin1Exam.url_token);
@@ -167,7 +166,7 @@ describe("API Tests", () => {
             ];
             const resp = await api.students.uploadRoster(
                 admin1Exam.url_token,
-                students
+                students,
             );
             expect(resp).toMatchObject(students);
             students = resp;
@@ -189,7 +188,7 @@ describe("API Tests", () => {
         });
 
         it.todo(
-            "Cannot upload multiple students with the same utorid for the same id"
+            "Cannot upload multiple students with the same utorid for the same id",
         );
 
         it.todo("Cannot update room that belongs to the wrong exam");

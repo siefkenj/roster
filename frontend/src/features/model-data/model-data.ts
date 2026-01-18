@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSelector, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import {
     RawBookletMatch,
     RawExam,
@@ -10,6 +10,7 @@ import {
 import { Exam } from "../../api/types";
 import { RootState } from "../../app/store";
 import { createBasicReducers } from "../../libs/basic-reducers";
+import { useSelector } from "react-redux";
 
 export interface ModelDataState {
     users: RawUser[];
@@ -37,7 +38,7 @@ const basicReducers = createBasicReducers(
         exam_tokens: "exam_token",
         rooms: "room",
     } as const,
-    "model_data"
+    "model_data",
 );
 
 export const modelDataSlice = createSlice({
@@ -49,7 +50,7 @@ export const modelDataSlice = createSlice({
         upsertExam: (state, action: PayloadAction<Exam>) => {
             const newExam = action.payload;
             const exam = state.exams.find(
-                (e) => e.url_token === newExam.url_token
+                (e) => e.url_token === newExam.url_token,
             );
             if (exam) {
                 Object.assign(exam, newExam);
@@ -60,7 +61,7 @@ export const modelDataSlice = createSlice({
         deleteExam: (state, action: PayloadAction<Exam>) => {
             const exam = action.payload;
             const matchingRoomIndex = state.exams.findIndex(
-                (s) => s.url_token === exam.url_token
+                (s) => s.url_token === exam.url_token,
             );
             if (matchingRoomIndex !== -1) {
                 state.exams.splice(matchingRoomIndex, 1);
@@ -71,11 +72,11 @@ export const modelDataSlice = createSlice({
          */
         removeBookletMatchesForStudentById: (
             state,
-            action: PayloadAction<number>
+            action: PayloadAction<number>,
         ) => {
             const studentId = action.payload;
             const matchingBookletMatchesIndex = state.booklet_matches.findIndex(
-                (s) => s.student_id === studentId
+                (s) => s.student_id === studentId,
             );
             if (matchingBookletMatchesIndex) {
                 state.booklet_matches.splice(matchingBookletMatchesIndex, 1);
@@ -84,21 +85,16 @@ export const modelDataSlice = createSlice({
     },
 });
 
-// Selectors
-export const modelDataSelectors = {
-    ...basicReducers.selectors,
-    /**
-     * Compute a "flat" representation of the booklet-matches data that can
-     * be displayed in a table or downloaded
-     */
-    flatBookletMatches(state: RootState) {
-        const bookletMatches = modelDataSelectors.bookletMatches(state);
-        const rooms = modelDataSelectors.rooms(state);
-        const students = modelDataSelectors.students(state);
-        const users = modelDataSelectors.users(state);
-
+const flatBookletMatchesSelector = createSelector(
+    [
+        basicReducers.selectors.bookletMatches,
+        basicReducers.selectors.rooms,
+        basicReducers.selectors.students,
+        basicReducers.selectors.users,
+    ],
+    (bookletMatches, rooms, students, users) => {
         const studentsHash = new Map(
-            students.map((student) => [student.id, student])
+            students.map((student) => [student.id, student]),
         );
         const roomsHash = new Map(rooms.map((room) => [room.id, room]));
         const usersHash = new Map(users.map((user) => [user.id, user]));
@@ -120,15 +116,15 @@ export const modelDataSelectors = {
             };
         });
     },
-    /**
-     * Compute a "flat" representation of the exam tokens data that can
-     * be displayed in a table or downloaded
-     */
-    flatExamTokens(state: RootState) {
-        const examTokens = modelDataSelectors.examTokens(state);
-        const rooms = modelDataSelectors.rooms(state);
-        const users = modelDataSelectors.users(state);
+);
 
+const flatExamTokensSelector = createSelector(
+    [
+        basicReducers.selectors.examTokens,
+        basicReducers.selectors.rooms,
+        basicReducers.selectors.users,
+    ],
+    (examTokens, rooms, users) => {
         const roomsHash = new Map(rooms.map((room) => [room.id, room]));
         const usersHash = new Map(users.map((user) => [user.id, user]));
         return examTokens.map((examToken) => {
@@ -149,9 +145,24 @@ export const modelDataSelectors = {
                     examToken.status === "active"
                         ? "Active"
                         : examToken.status === "unused"
-                        ? "Not Used"
-                        : "Expired",
+                          ? "Not Used"
+                          : "Expired",
             };
         });
     },
+);
+
+// Selectors
+export const modelDataSelectors = {
+    ...basicReducers.selectors,
+    /**
+     * Compute a "flat" representation of the booklet-matches data that can
+     * be displayed in a table or downloaded
+     */
+    flatBookletMatches: flatBookletMatchesSelector,
+    /**
+     * Compute a "flat" representation of the exam tokens data that can
+     * be displayed in a table or downloaded
+     */
+    flatExamTokens: flatExamTokensSelector,
 };

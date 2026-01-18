@@ -1,5 +1,4 @@
 /* eslint-env node */
-import axios from "axios";
 import { ApiResponse } from "../api/raw-types";
 // eslint-disable-next-line
 const { expect, test, it, describe, beforeAll } = global as any;
@@ -11,16 +10,16 @@ expect.extend({
     toContainObject(received: object[], argument: object) {
         const pass = this.equals(
             received,
-            expect.arrayContaining([expect.objectContaining(argument)])
+            expect.arrayContaining([expect.objectContaining(argument)]),
         );
 
         if (pass) {
             return {
                 message: () =>
                     `expected ${this.utils.printReceived(
-                        received
+                        received,
                     )} not to contain object ${this.utils.printExpected(
-                        argument
+                        argument,
                     )}`,
                 pass: true,
             };
@@ -28,7 +27,7 @@ expect.extend({
             return {
                 message: () =>
                     `expected ${this.utils.printReceived(
-                        received
+                        received,
                     )} to contain object ${this.utils.printExpected(argument)}`,
                 pass: false,
             };
@@ -37,7 +36,7 @@ expect.extend({
     toHaveStatus(received: ApiResponse, argument: "success" | "error") {
         if (received == null) {
             throw new Error(
-                "Cannot check the status of a null/undefined response"
+                "Cannot check the status of a null/undefined response",
             );
         }
         if (received.status === argument) {
@@ -47,7 +46,7 @@ expect.extend({
                     `expected API response to not have ${this.utils.printExpected(
                         {
                             status: argument,
-                        }
+                        },
                     )} but received ${this.utils.printReceived(received)}`,
             };
         } else {
@@ -69,7 +68,7 @@ expect.extend({
                 pass: true,
                 message: () =>
                     `expected object response to not have key ${this.utils.printExpected(
-                        argument
+                        argument,
                     )} but it does.`,
             };
         } else {
@@ -77,16 +76,16 @@ expect.extend({
                 pass: false,
                 message: () =>
                     `expected object to have key ${this.utils.printExpected(
-                        argument
+                        argument,
                     )} but only has keys ${this.utils.printReceived(
-                        Object.keys(received)
+                        Object.keys(received),
                     )}`,
             };
         }
     },
     toContainTypeDescription(
         received: object,
-        argument: { name: string; attributes: string[] }
+        argument: { name: string; attributes: string[] },
     ) {
         // `received` is expected to be an object with keys
         // that are Typescript type names and values containing a `properties`
@@ -98,7 +97,7 @@ expect.extend({
         }
         if (argument.name in received) {
             const properties = Object.keys(
-                (received as any)[argument.name].properties || {}
+                (received as any)[argument.name].properties || {},
             ).sort();
             const expectedProperties = [...argument.attributes].sort();
             const pass = this.equals(properties, expectedProperties);
@@ -107,9 +106,9 @@ expect.extend({
                     pass: true,
                     message: () =>
                         `expected ${this.utils.printExpected(
-                            argument.name
+                            argument.name,
                         )} type to not have attributes ${this.utils.printExpected(
-                            argument.attributes
+                            argument.attributes,
                         )} but it does.`,
                 };
             } else {
@@ -117,14 +116,14 @@ expect.extend({
                     pass: false,
                     message: () =>
                         `expected ${this.utils.printExpected(
-                            argument.name
+                            argument.name,
                         )} type to have attributes ${this.utils.printExpected(
-                            expectedProperties
+                            expectedProperties,
                         )} but found attributes ${this.utils.printReceived(
-                            properties
+                            properties,
                         )}.\n\n${this.utils.diff(
                             expectedProperties,
-                            properties
+                            properties,
                         )}`,
                 };
             }
@@ -133,9 +132,9 @@ expect.extend({
                 pass: false,
                 message: () =>
                     `expected type definition for ${this.utils.printExpected(
-                        argument
+                        argument,
                     )} but only have type definitions for ${this.utils.printReceived(
-                        Object.keys(received)
+                        Object.keys(received),
                     )}`,
             };
         }
@@ -180,11 +179,19 @@ export async function apiGET(url: string, omitPrefix = false) {
     url = omitPrefix ? URL + _ensurePath(url) : API_URL + _ensurePath(url);
     let resp = null;
     try {
-        resp = await axios.get(url);
+        const r = await fetch(url);
+        if (!r.ok) {
+            const bodyText = await r.text().catch(() => "");
+            throw new Error(
+                `Fetch failed: ${r.status} ${r.statusText} ${bodyText}`,
+            );
+        }
+        const data = await r.json();
+        resp = { data };
     } catch (e) {
         // Modify the error to display some useful information
         throw new Error(
-            `Posting to \`${url}\`\nfailed with error: ${(e as Error).message}`
+            `Posting to \`${url}\`\nfailed with error: ${(e as Error).message}`,
         );
     }
 
@@ -206,13 +213,25 @@ export async function apiPOST(url: string, body = {}, omitPrefix = false) {
     url = omitPrefix ? URL + _ensurePath(url) : API_URL + _ensurePath(url);
     let resp = null;
     try {
-        resp = await axios.post(url, body);
+        const r = await fetch(url, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(body),
+        });
+        if (!r.ok) {
+            const bodyText = await r.text().catch(() => "");
+            throw new Error(
+                `Fetch failed: ${r.status} ${r.statusText} ${bodyText}`,
+            );
+        }
+        const data = await r.json();
+        resp = { data };
     } catch (e) {
         // Modify the error to display some useful information
         throw new Error(
             `Posting to \`${url}\` with content\n\t${JSON.stringify(
-                body
-            )}\nfailed with error: ${(e as Error).message}`
+                body,
+            )}\nfailed with error: ${(e as Error).message}`,
         );
     }
 

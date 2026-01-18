@@ -78,7 +78,7 @@ function EditFieldDialog<T extends string | number>(props: EditFieldProps<T>) {
     // When a confirm operation is in progress, a spinner is displayed; otherwise
     // it's hidden
     const spinner = inProgress ? (
-        <Spinner animation="border" size="sm" className="mr-1" />
+        <Spinner animation="border" size="sm" className="me-1" />
     ) : null;
 
     const changeIndicator =
@@ -157,7 +157,7 @@ export function EditableField<T extends string | number>(
     props: EditFieldProps<T> & {
         children: React.ReactNode | null;
         editable: boolean;
-    }
+    },
 ) {
     const {
         children,

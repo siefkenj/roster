@@ -17,11 +17,11 @@ export function ImportRoomsButton() {
         data: any;
     } | null>(null);
     const [processingError, setProcessingError] = React.useState<string | null>(
-        null
+        null,
     );
     const [inProgress, setInProgress] = React.useState(false);
     const [processedData, setProcessedData] = React.useState<RawRoom[] | null>(
-        null
+        null,
     );
 
     // Recompute the diff every time the file changes
@@ -58,7 +58,7 @@ export function ImportRoomsButton() {
             <p>No data loaded...</p>
             <Alert variant="info">
                 <p>
-                    <FaLightbulb className="mr-2" />
+                    <FaLightbulb className="me-2" />
                     Rooms should be in a single column with a header of{" "}
                     <b>Name</b>.
                 </p>

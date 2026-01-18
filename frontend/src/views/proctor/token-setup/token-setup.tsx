@@ -36,7 +36,7 @@ import { RoomSelector } from "./room-selector";
 export function TokenSetup() {
     const editableActiveUser = useAppSelector(editableActiveUserSelector);
     const editableShortToken = useAppSelector(
-        proctorSelectors.editableShortToken
+        proctorSelectors.editableShortToken,
     );
     const examTokenStatus = useAppSelector(proctorSelectors.examTokenStatus);
     const examToken = useAppSelector(proctorSelectors.examToken);
@@ -48,7 +48,7 @@ export function TokenSetup() {
     // We want to be able to check the status of `waiting` inside our effects,
     // but we don't want the waiting status to trigger the effects. So, we create
     // a waitingRef to wrap the waiting status.
-    const waitingRef = React.useRef<boolean>();
+    const waitingRef = React.useRef<boolean>(false);
     waitingRef.current = waiting;
 
     const readyToStartMatching =
@@ -98,7 +98,7 @@ export function TokenSetup() {
     }, [examTokenStatus, examToken, dispatch]);
 
     let spinner = waiting ? (
-        <Spinner animation="border" size="sm" className="mr-2" />
+        <Spinner animation="border" size="sm" className="me-2" />
     ) : null;
 
     if (!editableActiveUser) {
@@ -113,10 +113,12 @@ export function TokenSetup() {
     if (examTokenStatus === "invalid") {
         tokenWarning = (
             <Alert variant="warning">
-                <FaExclamationTriangle
-                    style={{ verticalAlign: "sub" }}
-                    className="mr-2"
-                />
+                {
+                    <FaExclamationTriangle
+                        style={{ verticalAlign: "sub" }}
+                        className="me-2"
+                    />
+                }
                 The token <b>{editableShortToken}</b> is either invalid or
                 expired.
             </Alert>
@@ -128,7 +130,7 @@ export function TokenSetup() {
             <Alert variant="info">
                 <FaQuestionCircle
                     style={{ verticalAlign: "sub" }}
-                    className="mr-2"
+                    className="me-2"
                 />
                 Please enter a valid token to continue.
             </Alert>
@@ -140,7 +142,7 @@ export function TokenSetup() {
             <Alert variant="info">
                 <FaQuestionCircle
                     style={{ verticalAlign: "sub" }}
-                    className="mr-2"
+                    className="me-2"
                 />
                 Please select your classroom.
             </Alert>
@@ -152,7 +154,7 @@ export function TokenSetup() {
             <Alert variant="secondary">
                 <FaExclamationTriangle
                     style={{ verticalAlign: "sub" }}
-                    className="mr-2"
+                    className="me-2"
                 />
                 The token <b>{examToken?.token}</b> can only be used once and
                 will be valid for three hours after activation.
@@ -166,31 +168,29 @@ export function TokenSetup() {
                 Logged in as (<code>{editableActiveUser.utorid}</code>)
             </h5>
             <InputGroup>
-                <InputGroup.Prepend>
-                    <InputGroup.Text id="name">Your Name</InputGroup.Text>
-                </InputGroup.Prepend>
+                <InputGroup.Text id="name">Your Name</InputGroup.Text>
                 <FormControl
                     value={editableActiveUser.name || ""}
                     onChange={(e) => {
                         const newName = e.target.value;
                         dispatch(
-                            userSlice.actions.setEditableActiveUserName(newName)
+                            userSlice.actions.setEditableActiveUserName(
+                                newName,
+                            ),
                         );
                     }}
                 />
             </InputGroup>
             <h5>Enter one-time use token</h5>
             <InputGroup>
-                <InputGroup.Prepend>
-                    <InputGroup.Text id="name">Token</InputGroup.Text>
-                </InputGroup.Prepend>
+                <InputGroup.Text id="name">Token</InputGroup.Text>
                 <FormControl
                     value={editableShortToken}
                     onChange={(e) => {
                         dispatch(
                             proctorSlice.actions.setEditableShortToken(
-                                strip(e.target.value).toLowerCase()
-                            )
+                                strip(e.target.value).toLowerCase(),
+                            ),
                         );
                     }}
                 />
@@ -211,14 +211,14 @@ export function TokenSetup() {
                 onClick={async () => {
                     if (!editableActiveUser || !readyToStartMatching) {
                         console.warn(
-                            "Attempting to proceed, but the active_user/token/room requirements are not met. Aborting instead."
+                            "Attempting to proceed, but the active_user/token/room requirements are not met. Aborting instead.",
                         );
                         return;
                     }
                     try {
                         setWaiting(true);
                         await dispatch(
-                            upsertActiveUserThunk(editableActiveUser)
+                            upsertActiveUserThunk(editableActiveUser),
                         );
                         await dispatch(proctorThunks.activateExamToken());
                         history.push("/proctor/match");

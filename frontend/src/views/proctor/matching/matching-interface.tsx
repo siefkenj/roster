@@ -49,14 +49,14 @@ export function MatchingInterface() {
     const dispatch = useAppDispatch();
     const activeStudent = useAppSelector(proctorSelectors.activeStudent);
     const activeBookletMatch = useAppSelector(
-        proctorSelectors.activeBookletMatch
+        proctorSelectors.activeBookletMatch,
     );
     const history = useHistory();
     const [waiting, setWaiting] = React.useState(false);
     // We want to be able to check the status of `waiting` inside our effects,
     // but we don't want the waiting status to trigger the effects. So, we create
     // a waitingRef to wrap the waiting status.
-    const waitingRef = React.useRef<boolean>();
+    const waitingRef = React.useRef<boolean>(false);
     waitingRef.current = waiting;
 
     React.useEffect(() => {
@@ -77,7 +77,7 @@ export function MatchingInterface() {
     }, [dispatch, activeStudent]);
 
     let spinner = waiting ? (
-        <Spinner animation="border" size="sm" className="mr-2" />
+        <Spinner animation="border" size="sm" className="me-2" />
     ) : null;
 
     let alreadyMatchedWarning: React.ReactNode | null = null;
@@ -87,7 +87,7 @@ export function MatchingInterface() {
                 <h5>
                     <FaExclamationTriangle
                         style={{ verticalAlign: "sub" }}
-                        className="mr-2"
+                        className="me-2"
                     />
                     Existing Match
                 </h5>
@@ -121,14 +121,14 @@ export function MatchingInterface() {
                         onClick={async () => {
                             if (!activeUser) {
                                 console.warn(
-                                    "Attempting to proceed, but the active_user/token/room requirements are not met. Aborting instead."
+                                    "Attempting to proceed, but the active_user/token/room requirements are not met. Aborting instead.",
                                 );
                                 return;
                             }
                             try {
                                 setWaiting(true);
                                 await dispatch(
-                                    proctorThunks.deleteBookletMatchForStudent()
+                                    proctorThunks.deleteBookletMatchForStudent(),
                                 );
                             } finally {
                                 setWaiting(false);
@@ -146,7 +146,7 @@ export function MatchingInterface() {
                         onClick={async () => {
                             if (!activeUser) {
                                 console.warn(
-                                    "Attempting to proceed, but the active_user/token/room requirements are not met. Aborting instead."
+                                    "Attempting to proceed, but the active_user/token/room requirements are not met. Aborting instead.",
                                 );
                                 return;
                             }
@@ -154,8 +154,8 @@ export function MatchingInterface() {
                                 setWaiting(true);
                                 await dispatch(
                                     proctorThunks.createBookletMatchForStudentWithSuccessTransition(
-                                        history
-                                    )
+                                        history,
+                                    ),
                                 );
                             } finally {
                                 setWaiting(false);
@@ -168,13 +168,13 @@ export function MatchingInterface() {
                     {activeBookletMatch && (
                         <Button
                             disabled={!activeBookletMatch}
-                            className="flex-grow-1 ml-2"
+                            className="flex-grow-1 ms-2"
                             onClick={async () => {
                                 await dispatch(
                                     proctorThunks.setActiveStudentId({
                                         activeStudentId: null,
                                         history,
-                                    })
+                                    }),
                                 );
                             }}
                         >

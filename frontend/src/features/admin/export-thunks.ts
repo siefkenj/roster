@@ -2,13 +2,13 @@ import { createAsyncThunkWithErrorNotifications } from "../../app/hooks";
 import { RootState } from "../../app/store";
 import { compareString } from "../../libs/utils";
 import { modelDataSelectors } from "../model-data/model-data";
-import XLSX from "xlsx";
+import * as XLSX from "xlsx";
 import FileSaver from "file-saver";
 
 export function dataToFile(
     data: (string | null)[][],
     filePrefix = "",
-    dataFormat = "xlsx"
+    dataFormat = "xlsx",
 ) {
     const fileName = `${filePrefix}${
         filePrefix ? "_" : ""
@@ -30,9 +30,8 @@ export function dataToFile(
         [XLSX.write(workbook, { type: "array", bookType })],
         `${fileName}.${bookType}`,
         {
-            type:
-                "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-        }
+            type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        },
     );
     return file;
 }
@@ -50,8 +49,8 @@ export const exportThunks = {
                         (a.student_first_name || ""),
                     (b.student_last_name || "") +
                         ", " +
-                        (b.student_first_name || "")
-                )
+                        (b.student_first_name || ""),
+                ),
             );
 
             const spreadsheet = [
@@ -81,12 +80,12 @@ export const exportThunks = {
                     item.student_matching_data,
                     item.user_name,
                     item.user_utorid,
-                ])
+                ]),
             );
 
             const file = dataToFile(spreadsheet, "booklet_matches");
             FileSaver.saveAs(file);
-        }
+        },
     ),
     downloadRooms: createAsyncThunkWithErrorNotifications(
         "admin/export/rooms",
@@ -96,12 +95,12 @@ export const exportThunks = {
             data.sort((a, b) => compareString(a.name, b.name));
 
             const spreadsheet = [["Room"] as (string | null)[]].concat(
-                data.map((item) => [item.name])
+                data.map((item) => [item.name]),
             );
 
             const file = dataToFile(spreadsheet, "rooms");
             FileSaver.saveAs(file);
-        }
+        },
     ),
     downloadStudents: createAsyncThunkWithErrorNotifications(
         "admin/export/students",
@@ -111,8 +110,8 @@ export const exportThunks = {
             data.sort((a, b) =>
                 compareString(
                     (a.last_name || "") + ", " + (a.first_name || ""),
-                    (b.last_name || "") + ", " + (b.first_name || "")
-                )
+                    (b.last_name || "") + ", " + (b.first_name || ""),
+                ),
             );
 
             const spreadsheet = [
@@ -132,12 +131,12 @@ export const exportThunks = {
                     item.email,
                     item.student_number,
                     item.matching_data,
-                ])
+                ]),
             );
 
             const file = dataToFile(spreadsheet, "students");
             FileSaver.saveAs(file);
-        }
+        },
     ),
     downloadExamTokens: createAsyncThunkWithErrorNotifications(
         "admin/export/examTokens",
@@ -165,11 +164,11 @@ export const exportThunks = {
                     item.room_name,
                     item.user_name,
                     item.user_utorid,
-                ])
+                ]),
             );
 
             const file = dataToFile(spreadsheet, "exam_tokens");
             FileSaver.saveAs(file);
-        }
+        },
     ),
 };

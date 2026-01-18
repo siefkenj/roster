@@ -17,7 +17,7 @@ export const studentSchema: NormalizationSchema<
         "utorid",
         "email",
         "student_number",
-        "matching_data"
+        "matching_data",
     ]
 > = {
     keys: [

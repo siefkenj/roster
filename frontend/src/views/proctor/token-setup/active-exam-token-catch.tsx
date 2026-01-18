@@ -37,7 +37,7 @@ export function ActiveExamTokenCatch({
                 <Alert variant="warning" className="mb-2">
                     <FaExclamationTriangle
                         style={{ verticalAlign: "sub" }}
-                        className="mr-2"
+                        className="me-2"
                     />
                     You're attempting to re-activate the token{" "}
                     <b>{examToken.token}</b>. Did you hit the back button by
@@ -50,13 +50,13 @@ export function ActiveExamTokenCatch({
                         history.push(routeUndoTo);
                     }}
                 >
-                    <FaUndo style={{ verticalAlign: "sub" }} className="mr-2" />
+                    <FaUndo style={{ verticalAlign: "sub" }} className="me-2" />
                     Go Back
                 </Button>
                 <Button
                     onClick={() => {
                         dispatch(
-                            proctorSlice.actions.setEditableShortToken("")
+                            proctorSlice.actions.setEditableShortToken(""),
                         );
                         dispatch(proctorSlice.actions.setExamToken(null));
                     }}

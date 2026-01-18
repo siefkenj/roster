@@ -25,7 +25,7 @@ export function ExamTokensTable({ inDeleteMode = false }) {
                         title={`Invalidate ${examToken.token}`}
                         onClick={async () => {
                             await dispatch(
-                                adminThunks.examTokens.invalidate(examToken)
+                                adminThunks.examTokens.invalidate(examToken),
                             );
                         }}
                     />
@@ -39,7 +39,7 @@ export function ExamTokensTable({ inDeleteMode = false }) {
                     type={type}
                     upsert={async (examToken: Partial<ExamToken>) => {
                         await dispatch(
-                            adminThunks.examTokens.upsert(examToken)
+                            adminThunks.examTokens.upsert(examToken),
                         );
                     }}
                     {...props}

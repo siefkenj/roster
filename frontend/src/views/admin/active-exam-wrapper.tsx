@@ -16,14 +16,14 @@ export function ActiveExamWrapper({
     const dispatch = useAppDispatch();
     const activeExam = useAppSelector(adminSelectors.activeExam);
     const match = useRouteMatch<{ exam_url_token: string }>(
-        `${baseRoute}/exam/:exam_url_token`
+        `${baseRoute}/exam/:exam_url_token`,
     );
     const matchedUrlToken = match?.params.exam_url_token;
     React.useEffect(() => {
         if (matchedUrlToken && activeExam == null) {
             (async () => {
                 await dispatch(
-                    adminThunks.exams.fetchAndSetActive(matchedUrlToken)
+                    adminThunks.exams.fetchAndSetActive(matchedUrlToken),
                 );
             })();
         }

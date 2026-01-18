@@ -10,7 +10,7 @@ export function MatchesTable() {
     const columns = React.useMemo(() => {
         const ret: {
             Header: any;
-            accessor?: keyof typeof data[number];
+            accessor?: keyof (typeof data)[number];
         }[] = [
             {
                 Header: generateHeaderCell("First Name"),

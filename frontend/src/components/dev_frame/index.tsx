@@ -7,7 +7,6 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { Navbar, Nav, Button } from "react-bootstrap";
 
 import { ActiveUserButton } from "./active-user-switch";
-import { ErrorBoundary } from "react-error-boundary";
 import { ApiDocs } from "./api-docs";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import {
@@ -51,7 +50,7 @@ function ConnectedActiveUserButton() {
         async function fetchUsers() {
             return await dispatch(debugThunks.fetchUsers());
         },
-        [dispatch]
+        [dispatch],
     );
     const setActiveUser = React.useCallback(
         async function setActiveUser(user?: RawUser | null) {
@@ -61,7 +60,7 @@ function ConnectedActiveUserButton() {
             }
             return await dispatch(debugThunks.setActiveUser(user));
         },
-        [dispatch]
+        [dispatch],
     );
 
     return (
@@ -114,7 +113,7 @@ function DevFrame({ children }: React.PropsWithChildren<{}>) {
                 <Navbar expand variant="dark">
                     <Button
                         size="sm"
-                        className="mr-2"
+                        className="me-2"
                         variant="outline-light"
                         title="Hide the dev frame (this can only be undone by refreshing the browser)"
                         onClick={() => {
@@ -135,7 +134,7 @@ function DevFrame({ children }: React.PropsWithChildren<{}>) {
                     >
                         Proctor Mode
                     </Navbar.Brand>
-                    <Nav className="mr-auto">
+                    <Nav className="me-auto">
                         <BootstrapNavLink to="/api-docs">
                             API Docs
                         </BootstrapNavLink>
@@ -151,14 +150,7 @@ function DevFrame({ children }: React.PropsWithChildren<{}>) {
                         <Route path="/api-docs">
                             <ApiDocs />
                         </Route>
-                        <Route>
-                            <ErrorBoundary
-                                FallbackComponent={ErrorFallback}
-                                onError={console.error}
-                            >
-                                {children}
-                            </ErrorBoundary>
-                        </Route>
+                        <Route>{children}</Route>
                     </Switch>
                 </div>
             </div>

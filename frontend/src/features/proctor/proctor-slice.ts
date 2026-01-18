@@ -43,7 +43,7 @@ export const proctorThunks = {
         async (shortToken: string, { dispatch }) => {
             const rooms = await proctorApi.fetchRooms(shortToken);
             dispatch(modelDataSlice.actions.setRooms(rooms));
-        }
+        },
     ),
     fetchStudents: createAsyncThunkWithErrorNotifications(
         "proctor/fetchStudents",
@@ -52,13 +52,13 @@ export const proctorThunks = {
             const examToken = state.proctor.exam_token;
             if (examToken == null || examToken.cookie == null) {
                 throw new Error(
-                    "Cannot fetch students without an active exam token."
+                    "Cannot fetch students without an active exam token.",
                 );
             }
             try {
                 dispatch(proctorSlice.actions.setFetchingStudents(true));
                 const students = await proctorApi.fetchStudents(
-                    examToken.cookie
+                    examToken.cookie,
                 );
                 dispatch(modelDataSlice.actions.setStudents(students));
             } catch (e) {
@@ -66,7 +66,7 @@ export const proctorThunks = {
             } finally {
                 dispatch(proctorSlice.actions.setFetchingStudents(false));
             }
-        }
+        },
     ),
     /**
      * Sets `activeStudentId`, but also pushes that id to the url so the "back"
@@ -82,7 +82,7 @@ export const proctorThunks = {
                 activeStudentId: number | null;
                 history: ReturnType<typeof useHistory>;
             },
-            { getState, dispatch }
+            { getState, dispatch },
         ) => {
             const state = getState() as RootState;
             const previousActiveStudentId = state.proctor.active_student_id;
@@ -97,15 +97,15 @@ export const proctorThunks = {
                     history.push(`/proctor/match/cookie/${examToken.cookie}`);
                 } else if (previousActiveStudentId == null) {
                     history.replace(
-                        `/proctor/match/cookie/${examToken.cookie}/students/${activeStudentId}`
+                        `/proctor/match/cookie/${examToken.cookie}/students/${activeStudentId}`,
                     );
                 } else {
                     history.push(
-                        `/proctor/match/cookie/${examToken.cookie}/students/${activeStudentId}`
+                        `/proctor/match/cookie/${examToken.cookie}/students/${activeStudentId}`,
                     );
                 }
             }
-        }
+        },
     ),
 };
 
@@ -116,7 +116,7 @@ export const proctorSlice = createSlice({
         ...basicReducers.reducers,
         setExamTokenStatus: (
             state,
-            action: PayloadAction<ProctorSlice["exam_token_status"]>
+            action: PayloadAction<ProctorSlice["exam_token_status"]>,
         ) => {
             state.exam_token_status = action.payload;
         },
@@ -140,7 +140,7 @@ export const proctorSlice = createSlice({
         },
         setEditableBookletMatch: (
             state,
-            action: PayloadAction<Partial<EditableBookletMatch>>
+            action: PayloadAction<Partial<EditableBookletMatch>>,
         ) => {
             Object.assign(state.editable_booklet_match, action.payload);
         },
@@ -163,7 +163,7 @@ export const proctorSelectors = {
         const students = modelDataSelectors.students(state);
         return (
             students.find(
-                (student) => student.id === state.proctor.active_student_id
+                (student) => student.id === state.proctor.active_student_id,
             ) || null
         );
     },

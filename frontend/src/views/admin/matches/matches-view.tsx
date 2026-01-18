@@ -21,7 +21,7 @@ export function MatchesView() {
                             dispatch(adminThunks.users.fetch());
                         }}
                     >
-                        <FaSync className="mr-2" />
+                        <FaSync className="me-2" />
                         Re-fetch Matches
                     </Button>
                     <Button
@@ -30,7 +30,7 @@ export function MatchesView() {
                             dispatch(exportThunks.downloadBookletMatches());
                         }}
                     >
-                        <FaDownload className="mr-2" />
+                        <FaDownload className="me-2" />
                         Export Matches
                     </Button>
                 </div>

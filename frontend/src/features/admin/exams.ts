@@ -20,37 +20,38 @@ export const adminExamThunks = {
             const exam = await api.exams.fetchOne(url_token);
             dispatch(modelDataSlice.actions.upsertExam(exam));
             return dispatch(adminSlice.actions.setActiveExam(exam));
-        }
+        },
     ),
     fetchOne: createAsyncThunkWithErrorNotifications(
         "exam/fetch",
         async (url_token: string, { dispatch }) => {
             const exam = await api.exams.fetchOne(url_token);
             return dispatch(modelDataSlice.actions.upsertExam(exam));
-        }
+        },
     ),
     fetch: createAsyncThunkWithErrorNotifications(
         "exam/fetchAll",
         async (_: void, { dispatch }) => {
             const exams = await api.exams.fetch();
             return dispatch(modelDataSlice.actions.setExams(exams));
-        }
+        },
     ),
     upsert: createAsyncThunkWithErrorNotifications(
         "exam/upsert",
         async (exam: Partial<Exam>, { dispatch }) => {
             const newExam = await api.exams.upsert(exam);
             await dispatch(adminExamThunks.upsertWithActiveExamCheck(newExam));
-        }
+            return newExam;
+        },
     ),
     delete: createAsyncThunkWithErrorNotifications(
         "exam/delete",
         async (exam: Exam, { dispatch }) => {
             const deletedExam = await api.exams.delete(exam.url_token);
             await dispatch(
-                adminExamThunks.deleteWithActiveExamCheck(deletedExam)
+                adminExamThunks.deleteWithActiveExamCheck(deletedExam),
             );
-        }
+        },
     ),
     /**
      * When an exam is upserted, if it happens to be the active exam, we want the active
@@ -60,11 +61,12 @@ export const adminExamThunks = {
         "exam/upsertWithActiveExamCheck",
         async (exam: Exam, { dispatch, getState }) => {
             const state = getState() as RootState;
-            dispatch(modelDataSlice.actions.upsertExam(exam));
+            const ret = dispatch(modelDataSlice.actions.upsertExam(exam));
             if (state.admin.active_exam?.url_token === exam.url_token) {
                 dispatch(adminSlice.actions.setActiveExam(exam));
             }
-        }
+            return ret;
+        },
     ),
     /**
      * When an exam is deleted, if it happens to be the active exam, we want the active
@@ -78,7 +80,7 @@ export const adminExamThunks = {
             if (state.admin.active_exam?.url_token === exam.url_token) {
                 dispatch(adminSlice.actions.setActiveExam(null));
             }
-        }
+        },
     ),
 };
 

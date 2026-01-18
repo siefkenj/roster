@@ -19,13 +19,13 @@ export function SortableHeader<T extends object>({
         if (column.isSortedDesc) {
             sortIcon = (
                 <div className="column-sort-icon">
-                    <FaSortAlphaUp className="ml-2 text-secondary" />
+                    <FaSortAlphaUp className="ms-2 text-secondary" />
                 </div>
             );
         } else {
             sortIcon = (
                 <div className="column-sort-icon">
-                    <FaSortAlphaDown className="ml-2 text-secondary" />
+                    <FaSortAlphaDown className="ms-2 text-secondary" />
                 </div>
             );
         }
@@ -64,7 +64,7 @@ export function FilterBar({
 
     const displayFilterStrings = filterStrings.filter((s) => strip(s));
     const normalizedFilterStrings = filterStrings.map((s) =>
-        strip(s.toLowerCase())
+        strip(s.toLowerCase()),
     );
 
     /**
@@ -99,14 +99,14 @@ export function FilterBar({
             return;
         }
         const updatedFilterStrings = filterStrings.filter(
-            (oldString) => oldString !== filterString
+            (oldString) => oldString !== filterString,
         );
         setFilterStrings(updatedFilterStrings);
     }
 
     return (
         <div className="filterable-table-filter">
-            <FaSearch className="mr-2" />
+            <FaSearch className="me-2" />
             <input
                 type="text"
                 placeholder="Filter by..."
@@ -130,7 +130,8 @@ export function FilterBar({
                 <Badge
                     className="filter-chip"
                     pill
-                    variant="light"
+                    bg="light"
+                    text="dark"
                     key={`${filterString}-${i}`}
                 >
                     {filterString}
