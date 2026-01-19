@@ -15,7 +15,8 @@ export function ExamSelector() {
     const [sortedExams, displayExams] = React.useMemo(() => {
         const examsCopy = [...exams];
         examsCopy.sort((a, b) =>
-            (a.end_time || "").localeCompare(b.end_time || ""),
+            // Newest exam first
+            (b.end_time || "").localeCompare(a.end_time || ""),
         );
         return [
             examsCopy,
@@ -50,6 +51,7 @@ export function ExamSelector() {
                     setDropdownVisible(desiredVisibility)
                 }
                 show={dropdownVisible}
+                drop="down-centered"
             >
                 <Dropdown.Toggle split variant="light">
                     {activeExam?.name || "No Exam Selected"}{" "}
