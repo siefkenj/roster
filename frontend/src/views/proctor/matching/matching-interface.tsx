@@ -1,5 +1,14 @@
-import React from "react";
-import { Alert, Button, Spinner } from "react-bootstrap";
+import React, { act } from "react";
+import {
+    Accordion,
+    AccordionContext,
+    Alert,
+    Button,
+    Card,
+    Spinner,
+    Table,
+    useAccordionButton,
+} from "react-bootstrap";
 import {
     FaArrowRight,
     FaExclamationTriangle,
@@ -22,6 +31,7 @@ import { CommentView } from "./comment-view";
 import { BookletView } from "./booklet-view";
 import { StudentSelectorInterface } from "./student-selector";
 import { useHistory } from "react-router";
+import { InfoAccordion } from "./info-accordion";
 
 export function formatStudentName(student: Student): string {
     return [student.first_name, student.last_name, `(${student.utorid})`]
@@ -46,6 +56,7 @@ function formatDatetime(datetime: string) {
  */
 export function MatchingInterface() {
     const activeUser = useAppSelector(activeUserSelector);
+    const activeRoom = useAppSelector(proctorSelectors.activeRoom);
     const dispatch = useAppDispatch();
     const activeStudent = useAppSelector(proctorSelectors.activeStudent);
     const activeBookletMatch = useAppSelector(
@@ -58,6 +69,25 @@ export function MatchingInterface() {
     // a waitingRef to wrap the waiting status.
     const waitingRef = React.useRef<boolean>(false);
     waitingRef.current = waiting;
+
+    const matchBookletCallback = React.useCallback(async () => {
+        if (!activeUser) {
+            console.warn(
+                "Attempting to proceed, but the active_user/token/room requirements are not met. Aborting instead.",
+            );
+            return;
+        }
+        try {
+            setWaiting(true);
+            await dispatch(
+                proctorThunks.createBookletMatchForStudentWithSuccessTransition(
+                    history,
+                ),
+            );
+        } finally {
+            setWaiting(false);
+        }
+    }, [activeUser, history]);
 
     React.useEffect(() => {
         (async () => {
@@ -110,11 +140,12 @@ export function MatchingInterface() {
                 <h5>Student</h5>
                 <StudentSelectorInterface />
                 <h5>Matching Info</h5>
-                <BookletView />
-                <CommentView />
+                <BookletView onEnterCallback={matchBookletCallback} />
+                <CommentView onEnterCallback={matchBookletCallback} />
 
                 {alreadyMatchedWarning}
                 <VSpace />
+                <InfoAccordion />
                 {activeBookletMatch && (
                     <Button
                         variant="secondary"
@@ -143,24 +174,7 @@ export function MatchingInterface() {
                     <Button
                         disabled={!!activeBookletMatch || !activeStudent}
                         className="flex-grow-1"
-                        onClick={async () => {
-                            if (!activeUser) {
-                                console.warn(
-                                    "Attempting to proceed, but the active_user/token/room requirements are not met. Aborting instead.",
-                                );
-                                return;
-                            }
-                            try {
-                                setWaiting(true);
-                                await dispatch(
-                                    proctorThunks.createBookletMatchForStudentWithSuccessTransition(
-                                        history,
-                                    ),
-                                );
-                            } finally {
-                                setWaiting(false);
-                            }
-                        }}
+                        onClick={matchBookletCallback}
                     >
                         {spinner} Match{" "}
                         <FaLock style={{ verticalAlign: "sub" }} />

@@ -9,7 +9,11 @@ import {
 /**
  * View/add/edit a comment.
  */
-export function CommentView() {
+export function CommentView({
+    onEnterCallback,
+}: {
+    onEnterCallback?: () => void;
+}) {
     const dispatch = useAppDispatch();
     const activeBookletMatch = useAppSelector(
         proctorSelectors.activeBookletMatch,
@@ -38,6 +42,12 @@ export function CommentView() {
                                 comments: comment || null,
                             }),
                         );
+                    }}
+                    // If the user presses Enter while focused on this input, we trigger the onEnterCallback
+                    onKeyDown={(e) => {
+                        if (e.key === "Enter" && onEnterCallback) {
+                            onEnterCallback();
+                        }
                     }}
                 />
             </InputGroup>

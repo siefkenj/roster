@@ -40,8 +40,13 @@ export const proctorThunks = {
     ...proctorExamTokenThunks,
     fetchRooms: createAsyncThunkWithErrorNotifications(
         "proctor/exam_token/rooms/fetch",
-        async (shortToken: string, { dispatch }) => {
-            const rooms = await proctorApi.fetchRooms(shortToken);
+        async (shortToken: string | undefined, { dispatch, getState }) => {
+            const rooms = shortToken
+                ? await proctorApi.fetchRooms(shortToken)
+                : await proctorApi.fetchRoomsByCookie(
+                      (getState() as RootState).proctor.exam_token?.cookie ||
+                          "",
+                  );
             dispatch(modelDataSlice.actions.setRooms(rooms));
         },
     ),
@@ -68,12 +73,28 @@ export const proctorThunks = {
             }
         },
     ),
+    fetchAllBookletMatches: createAsyncThunkWithErrorNotifications(
+        "proctor/fetchAllBookletMatches",
+        async (_: void, { getState, dispatch }) => {
+            const state = getState() as RootState;
+            const examToken = state.proctor.exam_token;
+            if (examToken == null || examToken.cookie == null) {
+                throw new Error(
+                    "Cannot fetch booklet matches without an active exam token.",
+                );
+            }
+            const matches = await proctorApi.fetchAllBookletMatches(
+                examToken.cookie,
+            );
+            dispatch(modelDataSlice.actions.setBookletMatches(matches));
+        },
+    ),
     /**
      * Sets `activeStudentId`, but also pushes that id to the url so the "back"
      * button can work.
      */
     setActiveStudentId: createAsyncThunkWithErrorNotifications(
-        "proctor/deleteBookletMatchForStudent",
+        "proctor/setActiveStudentId",
         async (
             {
                 activeStudentId,
@@ -158,6 +179,15 @@ export const proctorSelectors = {
         return modelDataSelectors
             .rooms(state)
             .find((room) => room.id === state.proctor.active_room_id);
+    },
+    activeRoomNumMatches(state: RootState) {
+        const activeRoom = proctorSelectors.activeRoom(state);
+        if (!activeRoom) {
+            return undefined;
+        }
+        const bookletMatches = modelDataSelectors.bookletMatches(state);
+        return bookletMatches.filter((match) => match.room_id === activeRoom.id)
+            .length;
     },
     activeStudent(state: RootState) {
         const students = modelDataSelectors.students(state);

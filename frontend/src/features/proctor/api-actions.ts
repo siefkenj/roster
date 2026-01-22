@@ -18,6 +18,11 @@ export const proctorApi = {
             `/proctor/exam_tokens/${shortToken}/rooms`,
         )) as RawRoom[];
     },
+    fetchRoomsByCookie: async (cookie: string) => {
+        return (await apiGET(
+            `/proctor/authenticated/${cookie}/rooms`,
+        )) as RawRoom[];
+    },
     activateExamToken: async (shortToken: string, room_id: number | null) => {
         const body: { room_id?: number } = {};
         if (room_id != null) {
@@ -42,6 +47,11 @@ export const proctorApi = {
         return (await apiGET(
             `/proctor/authenticated/${cookie}/students/${studentId}/booklet_matches`,
         )) as RawBookletMatch | null;
+    },
+    fetchAllBookletMatches: async (cookie: string) => {
+        return (await apiGET(
+            `/proctor/authenticated/${cookie}/booklet_matches`,
+        )) as RawBookletMatch[];
     },
     deleteBookletMatch: async (cookie: string, bookletMatchId: number) => {
         return (await apiPOST(

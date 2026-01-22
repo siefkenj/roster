@@ -64,7 +64,7 @@ class Api::V1::Proctor::BookletMatchesController < ApplicationController
         )
     end
 
-    def santize_booklet_number
+    def sanitize_booklet_number
         if params[:booklet]
             # Taken from https://stackoverflow.com/questions/60509557/regex-remove-leading-zeros-but-keep-single-zero
             params[:booklet] = params[:booklet].strip.sub(/^(?:0+(?=[1-9])|0+(?=0$))/, '')
@@ -91,7 +91,7 @@ class Api::V1::Proctor::BookletMatchesController < ApplicationController
     end
 
     def update
-        santize_booklet_number
+        sanitize_booklet_number
         error_if_booklet_number_in_use
         render_on_condition(
             object: @booklet_match,
