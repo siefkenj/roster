@@ -9,7 +9,11 @@ import {
 /**
  * View/add/edit a booklet.
  */
-export function BookletView() {
+export function BookletView({
+    onEnterCallback,
+}: {
+    onEnterCallback?: () => void;
+}) {
     const dispatch = useAppDispatch();
     const activeBookletMatch = useAppSelector(
         proctorSelectors.activeBookletMatch,
@@ -31,7 +35,7 @@ export function BookletView() {
                 <FormControl
                     disabled={!!activeBookletMatch || !activeStudent}
                     value={editableBookletMatch.booklet}
-                    inputMode="numeric"
+                    inputMode="decimal"
                     onChange={(e) => {
                         const booklet = e.target.value;
                         dispatch(
@@ -39,6 +43,12 @@ export function BookletView() {
                                 booklet,
                             }),
                         );
+                    }}
+                    // If the user presses Enter while focused on this input, we trigger the onEnterCallback
+                    onKeyDown={(e) => {
+                        if (e.key === "Enter" && onEnterCallback) {
+                            onEnterCallback();
+                        }
                     }}
                 />
             </InputGroup>

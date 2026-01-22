@@ -27,7 +27,7 @@ export const createAsyncThunkWithErrorNotifications: typeof createAsyncThunk = (
             dispatch(
                 error({
                     position: "tc",
-                    autoDismiss: 10,
+                    autoDismiss: 7,
                     title: "API Error",
                     message: (e as Error).message,
                 }),

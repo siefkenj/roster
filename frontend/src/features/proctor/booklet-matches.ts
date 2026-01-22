@@ -143,7 +143,7 @@ export const proctorBookletMatchThunks = {
                     dispatch(
                         info({
                             position: "tc",
-                            autoDismiss: 3,
+                            autoDismiss: 2.5,
                             title: "Match Successful",
                             message: `${formatStudentName(
                                 activeStudent,

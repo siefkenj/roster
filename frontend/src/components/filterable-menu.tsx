@@ -94,6 +94,7 @@ export function FilterableMenu(props: {
                     // `eventKey` must be a string. If it is a number, 0 is coerced to null
                     eventKey={"" + index}
                     active={activeItemId === s.id}
+                    title={s.name}
                 >
                     {s.name}
                 </Dropdown.Item>

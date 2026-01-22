@@ -8,7 +8,7 @@ class Api::V1::Proctor::StudentsController < ApplicationController
         render_success @exam_token.exam.students.order(id: :ASC)
     end
 
-    # GET exam_tokens/:authentication_id/bstudents/:id/booklet_matches
+    # GET exam_tokens/:authentication_id/students/:id/booklet_matches
     def booklet_matches
         render_success @exam_token.exam.booklet_matches.find_by(
                            student_id: params[:id]

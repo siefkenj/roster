@@ -75,3 +75,22 @@ mark.rbt-highlight-text:after {
     flex-direction: row;
     align-items: center;
 }
+
+.stats-table {
+    td:first-child {
+        width: 8em;
+    }
+}
+.matching-additional-info-accordion {
+    margin-bottom: 0.5rem;
+    .info-expander {
+        width: 100%;
+        height: 100%;
+    }
+    .card-header {
+        padding: 0;
+    }
+    .accordion-item {
+        border: none;
+    }
+}
