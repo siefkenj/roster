@@ -104,7 +104,9 @@ export function MatchesView() {
                                                             "Unknown",
                                                     ),
                                                 ),
-                                            ).sort().join(", ")}
+                                            )
+                                                .sort()
+                                                .join(", ")}
                                         </td>
                                     </tr>
                                 ),
